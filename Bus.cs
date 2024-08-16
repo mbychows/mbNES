@@ -31,47 +31,47 @@ namespace mbNES
         // and the remaining two most significant bits are ignored,
         // resulting in mirroring of memory $0000-$07FF to three more ranges in table above
 
-        // Array of unsigned 8 bit integers equivalent to 64K of RAM
+        // Array of signed 32-bit integers equivalent to 64K of RAM - need ints for bitwise operations
         // 0xFFFF = 65535
-        public static byte[] RAM = new byte[0xFFFF];
+        public static int[] RAM = new int[0xFFFF];
 
         static Bus()
         {
             // Set all RAM values to 0x00
-            for (int i = 0; i < RAM.Length; i++) { RAM[i] = 0x00; }
+            for (int i = 0; i < RAM.Length; i++) { RAM[i] = 0; }
 
         }
 
         public static void ResetBus()
         {
             // Set all RAM values to 0x00
-            for (int i = 0; i < RAM.Length; i++) { RAM[i] = 0x00; }
+            for (int i = 0; i < RAM.Length; i++) { RAM[i] = 0; }
         }
 
         // TODO: check the mirroring
-        public static byte ReadBus(ushort address)
+        public static int ReadBus(int address)
         {
             // If the address provided is in the range $0000-$1FFF, the two most siginificant bits
             // should be discarded so we're only ever actually writing to $0000-$07FF
-            ushort strippedAddress = 0x0000;
+            int strippedAddress = 0x0000;
 
             if ( (0x0000 <= address) && (address <= 0x1FFF) )
             {
-                strippedAddress = (ushort)(address & 0b111111111);  // 9 bits
+                strippedAddress = (int)(address & 0b111111111);  // 9 bits
                 
             }
             // Return the data stored at memory location [address]
             return RAM[strippedAddress];
         }
 
-        public static void WriteBus(ushort address, byte data)
+        public static void WriteBus(int address, int data)
         {
             //  as WriteBus
-            ushort strippedAddress = 0x0000;
+            int strippedAddress = 0x0000;
 
             if ((0x0000 <= address) && (address <= 0x1FFF))
             {
-                strippedAddress = (ushort)(address & 0b111111111);  // 9 bits
+                strippedAddress = (int)(address & 0b111111111);  // 9 bits
 
             }
             

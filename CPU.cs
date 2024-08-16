@@ -31,28 +31,28 @@ namespace mbNES
         //    Registers   |  
         // ---------------
 
-        public byte a { get; private set; } = 0x00;         // Accumulator
-        public byte x { get; private set; } = 0x00;         // x register
-        public byte y { get; private set; } = 0x00;         // y register 
-        public byte s { get; private set; } = 0x00;         // Stack Pointer
-        public byte p { get; private set; } = 0x00;         // Status register
+        public int a { get; private set; } = 0x00;         // Accumulator
+        public int x { get; private set; } = 0x00;         // x register
+        public int y { get; private set; } = 0x00;         // y register 
+        public int s { get; private set; } = 0x00;         // Stack Pointer
+        public int p { get; private set; } = 0x00;         // Status register
 
-        public ushort pc { get; private set; } = 0x0000;    // Program counter, 2 bytes
+        public int pc { get; private set; } = 0x0000;    // Program counter, 2 bytes
 
-        public byte cycleCount { get; private set; } = 0;   // Cycle counter
+        public int cycleCount { get; private set; } = 0;   // Cycle counter
 
-        private byte currentOpcode = 0x00;
+        private int currentOpcode = 0x00;
 
-        private byte workingData = 0x00;            // Holds the data read from address during each instruction
-        public ushort effectiveAddress = 0x0000;    // Final address to be used by the instruction after addressing mode
+        private int workingData = 0x00;            // Holds the data read from address during each instruction
+        public int effectiveAddress = 0x0000;    // Final address to be used by the instruction after addressing mode
                                                     //   operations have been applied
 
-        private byte tempLowOrderByte = 0x00;
-        private byte tempHighOrderByte = 0x00;
-        private ushort tempAddress = 0x0000;
-        private ushort tempResult = 0x0000;
+        private int tempLowOrderByte = 0x00;
+        private int tempHighOrderByte = 0x00;
+        private int tempAddress = 0x0000;
+        private int tempResult = 0x0000;
         
-        public void SetRegisters(byte a, byte x, byte y, byte s, byte p)
+        public void SetRegisters(int a, int x, int y, int s, int p)
         {
             this.a = a;
             this.x = x;
@@ -67,7 +67,7 @@ namespace mbNES
             ResetPC();
         }
 
-        public void SetPC(ushort pc)
+        public void SetPC(int pc)
         { this.pc = pc; }
 
         private void ResetPC()
@@ -118,10 +118,10 @@ namespace mbNES
             tempLowOrderByte = Bus.ReadBus(pc);
             // Increment program counter to read the 8 high-order bits of the address
             pc++;
-            effectiveAddress += (ushort)Bus.ReadBus(pc);
+            effectiveAddress += Bus.ReadBus(pc);
             
             // Shift the data into the high-order byte and add in the low order byte
-            effectiveAddress = (ushort)(effectiveAddress << 8);
+            effectiveAddress = (effectiveAddress << 8);
             effectiveAddress += tempLowOrderByte;
             
         }
@@ -143,13 +143,13 @@ namespace mbNES
         //  addressing, the content of the second byte references a location in page zero. Additionally due to
         //  the "Zero Page" addressing nature of this mode, no carry is added to the high order 8 bits of memory
         //  and crossing of page boundaries does not occur.
-        public void AddressingMode_IndexedZeroPage(ref byte register)  // Done?
+        public void AddressingMode_IndexedZeroPage(ref int register)  // Done?
         {
             pc++;
             effectiveAddress = 0x0000;
             effectiveAddress += Bus.ReadBus(pc); // Read second byte of instruction
             effectiveAddress += register;  // Add the contents of the index register
-            effectiveAddress = (ushort)(effectiveAddress & ~(0xFF00));  // Clear the high order byte
+            effectiveAddress = (effectiveAddress & ~(0xFF00));  // Clear the high order byte
 
         
         }
@@ -161,7 +161,7 @@ namespace mbNES
         //  instruction.This mode allows the index register to contain the index or count value and the in
         //  struction to contain the base address.  This type of indexing allows any location referencing and
         //  the index to modify multiple fields resulting in reduced coding and execution time.
-        public void AddressingMode_IndexedAbsolute(ref byte register)   // need to check for page boundary crossing   
+        public void AddressingMode_IndexedAbsolute(ref int register)   // need to check for page boundary crossing   
         { 
             AddressingMode_Absolute();      // Load the effective address with the address formed from the next two bytes
             // Console.WriteLine("Effective address: " + effectiveAddress.ToString("x4"));
@@ -186,15 +186,15 @@ namespace mbNES
             workingData = Bus.ReadBus(pc);  // Get the offset
             pc++;  // Set program counter for "next instruction"
             effectiveAddress = pc;
-            if (workingData >> 7 == 1)  // If offset is positive
+            if (workingData >> 7 == 1)  // If offset is negative
             {
-                workingData &= ~(1 << 7);  // Clear bit 8 to prep for addition
+                workingData &= ~(1 << 7);  // Clear bit 8 to prep for subtraction
                 Console.WriteLine("Working Data after bit 8 clear: " + workingData.ToString("x2"));
-                effectiveAddress += workingData;  // Add to program counter
-            }
-            else  // Offset is negative
-            {
                 effectiveAddress -= workingData;  // Subtract from program counter
+            }
+            else  // Offset is positive
+            {
+                effectiveAddress += workingData;  // Add to program counter
             }
             
 
@@ -213,9 +213,9 @@ namespace mbNES
             tempAddress = 0x0000;
             // Read second byte of the instruction, add to x register
             pc++;
-            tempAddress = (ushort)(Bus.ReadBus(pc) + x);
+            tempAddress = (Bus.ReadBus(pc) + x);
             // Discard carry
-            tempAddress = (byte)(tempAddress & ~(1 << 9));   // Clear bit 9 in case the addition carries over
+            tempAddress = (tempAddress & ~(1 << 9));   // Clear bit 9 in case the addition carries over
 
             // Get value of this zero page memory location, store as low order byte
             tempLowOrderByte = Bus.ReadBus(tempAddress);
@@ -223,7 +223,7 @@ namespace mbNES
             // Get value of following address, store as high order byte
             effectiveAddress = 0x0000;
             effectiveAddress += Bus.ReadBus(++tempAddress);
-            effectiveAddress = (ushort)(effectiveAddress << 8);  // Shift value into high order byte
+            effectiveAddress = (effectiveAddress << 8);  // Shift value into high order byte
 
             // Combine to get effective address
             effectiveAddress += tempLowOrderByte;
@@ -243,10 +243,10 @@ namespace mbNES
             tempAddress += (Bus.ReadBus(pc));
 
             // Read value of zero page memory location, add to y register
-            tempResult = (ushort)(Bus.ReadBus(tempAddress) + y);
+            tempResult = (Bus.ReadBus(tempAddress) + y);
 
             // Result of add stored as low order byte of effectve address
-            tempLowOrderByte = (byte)tempResult;
+            tempLowOrderByte = tempResult;
 
             // Get next page zero memory value
             tempHighOrderByte = Bus.ReadBus(++tempAddress);
@@ -258,7 +258,7 @@ namespace mbNES
 
             // Combine to form effective address
             effectiveAddress += tempHighOrderByte;
-            effectiveAddress += (ushort)(effectiveAddress << 8);
+            effectiveAddress += (effectiveAddress << 8);
             effectiveAddress += tempLowOrderByte;
 
         }
@@ -278,7 +278,7 @@ namespace mbNES
             // Get third byte of instruction, assign to high order byte of address
             pc++;
             tempAddress = Bus.ReadBus(pc);
-            tempAddress += (ushort)(tempAddress << 8);
+            tempAddress += (tempAddress << 8);
             tempAddress += tempLowOrderByte;
 
             // Get contents of address, assign to low order byte of effective address
@@ -286,7 +286,7 @@ namespace mbNES
 
             // Get contents of next address, assign to high order byte of effective address
             effectiveAddress = Bus.ReadBus(++tempAddress);
-            effectiveAddress = (ushort)(effectiveAddress << 8);
+            effectiveAddress = (effectiveAddress << 8);
 
             // Combine for effective address and load into program counter
             effectiveAddress += tempLowOrderByte;

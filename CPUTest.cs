@@ -15,8 +15,8 @@ namespace mbNES
         //private byte tempLowOrderByte = 0xFF;
         //private byte tempHighOrderByte = 0x11;
 
-        private ushort ExpectedEffectiveAddress = 0x0000;
-        private ushort ComputedEffectiveAddress = 0x0000;
+        private int ExpectedEffectiveAddress = 0x0000;
+        private int ComputedEffectiveAddress = 0x0000;
 
         CPU TestCPU = new CPU();
 
@@ -118,7 +118,7 @@ namespace mbNES
             Bus.WriteBus(0x0001, 0xF0);
             TestCPU.SetRegisters(0, 0xF1, 0, 0, 0);
 
-            byte register = TestCPU.x;
+            int register = TestCPU.x;
             ExpectedEffectiveAddress = 0x00E1;
             PrintMemoryContents(0x0000, 10);
             PrintRegisters();
@@ -156,7 +156,7 @@ namespace mbNES
             Bus.WriteBus(0x0002, 0x31);
             TestCPU.SetRegisters(0, 0xAB, 0, 0, 0); // Set x register
 
-            byte register = TestCPU.x;
+            int register = TestCPU.x;
             ExpectedEffectiveAddress = 0x32A9;
             PrintMemoryContents(0x0000, 10);
             PrintRegisters();
