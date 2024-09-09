@@ -33,13 +33,14 @@ namespace mbNES
 
         // Array of signed 32-bit integers equivalent to 64K of RAM - need ints for bitwise operations
         // 0xFFFF = 65535
-        public static int[] RAM = new int[0xFFFF];
+        public static int[] RAM = new int[0xFFFF+10]; // Must be +1 to make $FFFF inside the bounds of the array
+                                                      // set larger for now for testing without throwing exceptions
+        public static int cycleCount;
 
         static Bus()
         {
             // Set all RAM values to 0x00
             for (int i = 0; i < RAM.Length; i++) { RAM[i] = 0; }
-
         }
 
         public static void ResetBus()
@@ -48,20 +49,35 @@ namespace mbNES
             for (int i = 0; i < RAM.Length; i++) { RAM[i] = 0; }
         }
 
+
+        // Check memory contents and increment cycleCount
         // TODO: check the mirroring
-        public static int ReadBus(int address)
+        public static int ReadBus(int address, bool increment)
         {
             // If the address provided is in the range $0000-$1FFF, the two most siginificant bits
             // should be discarded so we're only ever actually writing to $0000-$07FF
             int strippedAddress = 0x0000;
+            cycleCount++;
+            //if ( (0x0000 <= address) && (address <= 0x1FFF) )
+            //{
+            //    strippedAddress = (int)(address & 0b111111111);  // 9 bits
 
-            if ( (0x0000 <= address) && (address <= 0x1FFF) )
-            {
-                strippedAddress = (int)(address & 0b111111111);  // 9 bits
-                
-            }
+            //}
             // Return the data stored at memory location [address]
-            return RAM[strippedAddress];
+            try  { return RAM[address]; }
+            catch (Exception e) { Console.WriteLine(e.Message); return 0; }
+            
+        }
+
+        // Used for testing
+        public static int ReadBus(int address)
+        {
+            // Increment variable isn't actually used
+
+            // Return the data stored at memory location [address]
+            try { return RAM[address]; }
+            catch (Exception e) { Console.WriteLine(e.Message); return 0; }
+
         }
 
         public static void WriteBus(int address, int data)
@@ -69,14 +85,15 @@ namespace mbNES
             //  as WriteBus
             int strippedAddress = 0x0000;
 
-            if ((0x0000 <= address) && (address <= 0x1FFF))
-            {
-                strippedAddress = (int)(address & 0b111111111);  // 9 bits
+           // if ((0x0000 <= address) && (address <= 0x1FFF))
+            //{
+            //    strippedAddress = (int)(address & 0b111111111);  // 9 bits
 
-            }
+            //}
             
             // Write the byte of data [data] to memory at location [address]
-            RAM[strippedAddress] = data;
+            RAM[address] = data;
+            //cycleCount++;
         }
 
     }

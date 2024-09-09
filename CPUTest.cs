@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +11,7 @@ namespace mbNES
 {
     internal class CPUTest
     {
-
+        
 
         //private ushort finalAddress = 0x0000;
         //private ushort tempAddress = 0x0000;
@@ -26,21 +29,40 @@ namespace mbNES
 
         }
 
-        public void PrintRegisters()
+        public void PrintRegisters(string format)
         {
-            Console.WriteLine("a:  " + TestCPU.a.ToString("x2"));
-            Console.WriteLine("x:  " + TestCPU.x.ToString("x2"));
-            Console.WriteLine("y:  " + TestCPU.y.ToString("x2"));
-            Console.WriteLine("s:  " + TestCPU.s.ToString("x2"));
-            Console.WriteLine("p:  " + TestCPU.p.ToString("x2"));
-            Console.WriteLine("pc: " + TestCPU.pc.ToString("x4"));
-            Console.WriteLine("\n");
+            if (format == "hex")
+            {
+                Console.WriteLine("a:  " + TestCPU.a.ToString("x2"));
+                Console.WriteLine("x:  " + TestCPU.x.ToString("x2"));
+                Console.WriteLine("y:  " + TestCPU.y.ToString("x2"));
+                Console.WriteLine("s:  " + TestCPU.s.ToString("x2"));
+                Console.WriteLine("p:  " + TestCPU.p.ToString("x2"));
+                Console.WriteLine("pc: " + TestCPU.pc.ToString("x4"));
+                Console.WriteLine("\n");
+            }
+
+            else
+            {
+                Console.WriteLine("a:  " + TestCPU.a);
+                Console.WriteLine("x:  " + TestCPU.x);
+                Console.WriteLine("y:  " + TestCPU.y);
+                Console.WriteLine("s:  " + TestCPU.s);
+                Console.WriteLine("p:  " + TestCPU.p);
+                Console.WriteLine("pc: " + TestCPU.pc);
+                Console.WriteLine("\n");
+            }
+        }
+
+        public void PrintPC()
+        {
+            Console.WriteLine("pc:  " + TestCPU.pc);
         }
 
 
 
 
-        public void PrintMemoryContents(ushort startingAddress, int range)
+        public void PrintMemoryContents(int startingAddress, int range)
         {
             for (int i = 0; i < range; i++)
             {
@@ -58,6 +80,41 @@ namespace mbNES
             Console.WriteLine("Effective address: " + TestCPU.effectiveAddress.ToString("x4"));
         }
 
+
+        public void SetupOpcodeTest()
+        {
+            TestCPU.SetPC(49119);
+            TestCPU.SetRegisters(76,36,4,46,228);
+            Bus.WriteBus(49119, 105);
+            Bus.WriteBus(49120, 27);
+            Bus.WriteBus(49121, 145);
+
+            // Initial
+            // "pc": 49119
+            // "s": 46
+            // "a": 76
+            // "x": 36
+            // "y": 4
+            // "p": 228
+            // "ram": [49119, 105]
+            //        [49120, 27]
+            //        [49121, 145] 
+
+            // Final
+            // "pc": 49121
+            // "s": 46
+            // "a": 103
+            // "x": 36
+            // "y": 4
+            // "p": 36
+            // "ram": [49119, 105]
+            //        [49120, 27]
+            //        [49121, 145]]}
+
+
+            // "final": { "pc": 49121, "s": 46, "a": 103, "x": 36, "y": 4, "p": 36, "ram": [ [49119, 105], [49120, 27], [49121, 145]]},
+
+        }
 
 
 
@@ -82,9 +139,9 @@ namespace mbNES
             Bus.WriteBus(0x0002, 0xF1); // High order bits of address
             ExpectedEffectiveAddress = 0xF153;
 
-            PrintMemoryContents(0x0000,10);
+            PrintMemoryContents(0x0000, 10);
             TestCPU.AddressingMode_Absolute();
-            PrintRegisters();
+            PrintRegisters("hex");
             PrintEffectiveAddress();
 
         }
@@ -98,9 +155,9 @@ namespace mbNES
             Bus.WriteBus(0x0001, 0x69); // Low order bits of address
             ExpectedEffectiveAddress = 0x0069;
 
-            PrintMemoryContents(0x0000,10);
+            PrintMemoryContents(0x0000, 10);
             TestCPU.AddressingMode_Absolute();
-            PrintRegisters();
+            PrintRegisters("hex");
             PrintEffectiveAddress();
 
         }
@@ -121,7 +178,7 @@ namespace mbNES
             int register = TestCPU.x;
             ExpectedEffectiveAddress = 0x00E1;
             PrintMemoryContents(0x0000, 10);
-            PrintRegisters();
+            PrintRegisters("hex");
             TestCPU.AddressingMode_IndexedZeroPage(ref register);
             PrintEffectiveAddress();
 
@@ -138,7 +195,7 @@ namespace mbNES
             register = TestCPU.y;
             ExpectedEffectiveAddress = 0x00B5;
             PrintMemoryContents(0x0000, 10);
-            PrintRegisters();
+            PrintRegisters("hex");
             TestCPU.AddressingMode_IndexedZeroPage(ref register);
             PrintEffectiveAddress();
         }
@@ -159,7 +216,7 @@ namespace mbNES
             int register = TestCPU.x;
             ExpectedEffectiveAddress = 0x32A9;
             PrintMemoryContents(0x0000, 10);
-            PrintRegisters();
+            PrintRegisters("hex");
             TestCPU.AddressingMode_IndexedAbsolute(ref register);
             PrintEffectiveAddress();
 
@@ -175,7 +232,7 @@ namespace mbNES
             register = TestCPU.y;
             ExpectedEffectiveAddress = 0x32A9;
             PrintMemoryContents(0x0000, 10);
-            PrintRegisters();
+            PrintRegisters("hex");
             TestCPU.AddressingMode_IndexedAbsolute(ref register);
             PrintEffectiveAddress();
 
@@ -191,15 +248,110 @@ namespace mbNES
             TestCPU.SetPC(0x0255);
             Bus.WriteBus(0x0255, 0xF0);     // BEQ, Relative
             Bus.WriteBus(0x0256, 0xBB);     // Program counter offset -69 (-0x3B)
-            
+
             ExpectedEffectiveAddress = 0x021C;  // 0257-3B
-            PrintMemoryContents(0x0255,10);
-            PrintRegisters();
+            PrintMemoryContents(0x0255, 10);
+            PrintRegisters("hex");
             TestCPU.AddressingMode_Relative();
             PrintEffectiveAddress();
             Console.WriteLine("Program Counter: " + TestCPU.pc.ToString("x4"));
 
         }
+
+
+        //  INDEXED INDIRECT ADDRESSING - In indexed indirect addressing (referred to as (Indirect,X)), the second byte of
+        //  the instruction is added to the contents of the X index register, discarding the carry. The result
+        //  of this addition points to a memory location on page zero whose contents is the low order eight bits
+        //  of the effective address.The next memory location in page zero contains the high order eight bits
+        //  of the effective address. Both memory locations specifying the high and low order bytes of the
+        //  effective address must be in page zero.
+        public void TestAddressingMode_IndirectX()
+        {
+            Bus.WriteBus(0x0000, 0x61);     // ADC - Indirect, X
+            Bus.WriteBus(0x0001, 0x11);
+            Bus.WriteBus(0x0066, 0x31);     // 0x11 + 0x55 = 0x66
+            Bus.WriteBus(0x0067, 0xAA);
+            TestCPU.SetRegisters(0, 0x55, 0, 0, 0); // Set X register
+
+            ExpectedEffectiveAddress = 0xAA31;
+            // PrintMemoryContents(0x0255, 10);
+            PrintRegisters("hex");
+            TestCPU.AddressingMode_IndirectX();
+            PrintEffectiveAddress();
+
+
+        }
+
+
+        //  INDIRECT INDEXED ADDRESSING - In indirect indexed addressing (referred to as (Indirect),Y), the second byte
+        //  of the instruction points to a memory location in page zero.The contents of this memory location
+        //  is added to the contents of the Y index register, the result being the low order eight bits of the
+        //  effective address. The carry from this addition is added to the contents of the next pagezero
+        //  memory location, the result being the high order eight bits of the effective address.
+        public void TestAddressingMode_IndirectY()  // done?
+        {
+
+            Bus.WriteBus(0x0000, 0x71);     // ADC - Indirect, Y
+            Bus.WriteBus(0x0001, 0x11);
+            Bus.WriteBus(0x0011, 0x31);
+            Bus.WriteBus(0x0012, 0xAA);
+            TestCPU.SetRegisters(0, 0, 0x22, 0, 0); // Set Y register
+
+            ExpectedEffectiveAddress = 0xAA53;
+            // PrintMemoryContents(0x0255, 10);
+            PrintRegisters("hex");
+            TestCPU.AddressingMode_IndirectY();
+            PrintEffectiveAddress();
+            PrintRegisters("hex");
+
+        }
+
+        //  ABSOLUTE INDIRECT - The second byte of the instruction contains the low order eight bits of a memory location.
+        //  The high order eight bits of that memory location is contained in the third byte of the instruction.
+        //  The contents of the fully specified memory location is the low order byte of the effective address.
+        //  The next memory location contains the high order byte of the effective address which is loaded
+        //  into the sixteen bits of the program counter.
+        public void TestAddressingMode_AbsoluteIndirect() 
+        {
+            Bus.WriteBus(0x0000, 0x6D);     // ADC - Absolute
+            Bus.WriteBus(0x0001, 0x22);
+            Bus.WriteBus(0x0002, 0x01);
+            Bus.WriteBus(0x0122, 0x12);
+            Bus.WriteBus(0x0123, 0x34);
+
+            TestCPU.SetRegisters(0, 0, 0, 0, 0); // Set Y register
+
+            ExpectedEffectiveAddress = 0x3412;
+            // PrintMemoryContents(0x0255, 10);
+            PrintRegisters("hex");
+            TestCPU.AddressingMode_AbsoluteIndirect();
+            PrintEffectiveAddress();
+           
+        }
+
+
+        public void TestADC()
+        {
+            TestCPU.SetPC(49119);
+            TestCPU.SetRegisters(76, 36, 4, 46, 228);
+            Bus.WriteBus(49119, 105);
+            Bus.WriteBus(49120, 27);
+            Bus.WriteBus(49121, 145);
+
+            Console.WriteLine("Initial:");
+            PrintRegisters("dec");
+            PrintMemoryContents(49119, 3);
+
+            TestCPU.ExecuteInstruction();
+
+            Console.WriteLine("Final:");
+            PrintRegisters("dec");
+            PrintMemoryContents(49119, 3);
+
+
+        }
+
+
 
     }
 }

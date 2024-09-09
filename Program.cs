@@ -25,12 +25,51 @@ namespace mbNES
 
                         
             CPUTest TestCPU = new CPUTest();
-            
+
             //TestCPU.TestAddressingMode_Absolute();
             //TestCPU.TestAddressingMode_ZeroPage();
             //TestCPU.TestAddressingMode_IndexedZeroPage();
             //TestCPU.TestAddressingMode_IndexedAbsolute();
-            TestCPU.TestAddressingMode_Relative();          // This isn't working
+            //TestCPU.TestAddressingMode_Relative();
+            //TestCPU.TestAddressingMode_IndirectX();
+            //TestCPU.TestAddressingMode_IndirectY();
+            //TestCPU.TestAddressingMode_AbsoluteIndirect();
+
+            //TestCPU.TestADC();
+            OpcodeTest OpcodeTest = new OpcodeTest();
+
+            // ADC - DONE
+            //OpcodeTest.JSONTest("69");    
+            //OpcodeTest.JSONTest("65");    
+            //OpcodeTest.JSONTest("75");    
+            //OpcodeTest.JSONTest("6D");    
+            //OpcodeTest.JSONTest("7D");     
+            //OpcodeTest.JSONTest("79");    
+            //OpcodeTest.JSONTest("61");     
+            //OpcodeTest.JSONTest("71");    
+
+            // AND - DONE
+            //OpcodeTest.JSONTest("29");        
+            //OpcodeTest.JSONTest("25");    
+            //OpcodeTest.JSONTest("35");
+            //OpcodeTest.JSONTest("2D");
+            //OpcodeTest.JSONTest("3D");
+            //OpcodeTest.JSONTest("39");
+            //OpcodeTest.JSONTest("21");
+            //OpcodeTest.JSONTest("31");
+
+            // CMP
+            //OpcodeTest.JSONTest("C9");        
+            //OpcodeTest.JSONTest("C5");    
+            //OpcodeTest.JSONTest("D5");
+            //OpcodeTest.JSONTest("CD");
+            //OpcodeTest.JSONTest("DD");
+            //OpcodeTest.JSONTest("D9");
+            //OpcodeTest.JSONTest("C1");
+            //OpcodeTest.JSONTest("D1");
+
+
+
             //TestCPU.CombineBytes();
             //Bus.WriteBus(0x0000, 0x69);
             //Bus.WriteBus(0x0001, 0x65);
