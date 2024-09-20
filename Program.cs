@@ -58,6 +58,14 @@ namespace mbNES
             //OpcodeTest.JSONTest("21");
             //OpcodeTest.JSONTest("31");
 
+            // ASL
+            //OpcodeTest.JSONTest("0A");
+            //OpcodeTest.JSONTest("06");
+            //OpcodeTest.JSONTest("16");
+            //OpcodeTest.JSONTest("0E");
+            //OpcodeTest.JSONTest("1E");
+
+
             // CMP
             //OpcodeTest.JSONTest("C9");        
             //OpcodeTest.JSONTest("C5");    
@@ -67,6 +75,76 @@ namespace mbNES
             //OpcodeTest.JSONTest("D9");
             //OpcodeTest.JSONTest("C1");
             //OpcodeTest.JSONTest("D1");
+
+            // DEC
+            //OpcodeTest.JSONTest("C6");
+            //OpcodeTest.JSONTest("D6");
+            //OpcodeTest.JSONTest("CE");
+            //OpcodeTest.JSONTest("DE");
+
+
+
+
+            // EOR
+            //OpcodeTest.JSONTest("49");
+            //OpcodeTest.JSONTest("45");
+            //OpcodeTest.JSONTest("55");
+            //OpcodeTest.JSONTest("4D");
+            //OpcodeTest.JSONTest("5D");
+            //OpcodeTest.JSONTest("59");
+            //OpcodeTest.JSONTest("41");
+            //OpcodeTest.JSONTest("51");
+
+
+            // INC
+            //OpcodeTest.JSONTest("E6");
+            //OpcodeTest.JSONTest("F6");
+            //OpcodeTest.JSONTest("EE");
+            //OpcodeTest.JSONTest("FE");
+
+
+            // LDA
+            //OpcodeTest.JSONTest("A9");
+            //OpcodeTest.JSONTest("A5");
+            //OpcodeTest.JSONTest("B5");
+            //OpcodeTest.JSONTest("AD");
+            //OpcodeTest.JSONTest("BD");
+            //OpcodeTest.JSONTest("B9");
+            //OpcodeTest.JSONTest("A1");
+            //OpcodeTest.JSONTest("B1");
+
+
+            // ORA
+            //OpcodeTest.JSONTest("09");
+            //OpcodeTest.JSONTest("05");
+            //OpcodeTest.JSONTest("15");
+            //OpcodeTest.JSONTest("0D");
+            //OpcodeTest.JSONTest("1D");
+            //OpcodeTest.JSONTest("19");
+            //OpcodeTest.JSONTest("01");
+            //OpcodeTest.JSONTest("11");
+
+
+            // SBC
+
+
+            // STA
+            //OpcodeTest.JSONTest("85");
+            //OpcodeTest.JSONTest("95");
+            //OpcodeTest.JSONTest("8D");
+            //OpcodeTest.JSONTest("9D");
+            //OpcodeTest.JSONTest("99");
+            //OpcodeTest.JSONTest("81");
+            //OpcodeTest.JSONTest("91");
+
+
+
+
+
+
+
+
+
 
 
 

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressingModes.cs" />
     <Compile Include="Bus.cs" />
     <Compile Include="CPUTest.cs" />
     <Compile Include="CPU.cs" />
@@ -61,6 +62,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Instructions.cs" />
+    <Compile Include="Opcodes.cs" />
     <Compile Include="OpcodeTestJSON.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

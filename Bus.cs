@@ -96,5 +96,12 @@ namespace mbNES
             //cycleCount++;
         }
 
+        // Write memory contents and increment cycleCount
+        public static void WriteBus(int address, int data, bool increment)
+        {
+            RAM[address] = data;
+            cycleCount++;
+
+        }
     }
 }
