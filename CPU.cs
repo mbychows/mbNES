@@ -53,6 +53,7 @@ namespace mbNES
         private int tempAddress = 0x0000;
         private int tempResult = 0x0000;
         private int baseAddress;
+        private int tempBitValue;
 
         private int register = 0;
         

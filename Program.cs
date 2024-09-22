@@ -113,6 +113,12 @@ namespace mbNES
             //OpcodeTest.JSONTest("A1");
             //OpcodeTest.JSONTest("B1");
 
+            // LSR
+            //OpcodeTest.JSONTest("4A");
+            //OpcodeTest.JSONTest("46");
+            //OpcodeTest.JSONTest("56");
+            //OpcodeTest.JSONTest("4E");
+            //OpcodeTest.JSONTest("5E");
 
             // ORA
             //OpcodeTest.JSONTest("09");
@@ -124,6 +130,19 @@ namespace mbNES
             //OpcodeTest.JSONTest("01");
             //OpcodeTest.JSONTest("11");
 
+            // ROL
+            //OpcodeTest.JSONTest("2A");
+            //OpcodeTest.JSONTest("26");
+            //OpcodeTest.JSONTest("36");
+            //OpcodeTest.JSONTest("2E");
+            //OpcodeTest.JSONTest("3E");
+
+            // ROR
+            OpcodeTest.JSONTest("6A");
+            OpcodeTest.JSONTest("66");
+            OpcodeTest.JSONTest("76");
+            OpcodeTest.JSONTest("6E");
+            OpcodeTest.JSONTest("7E");
 
             // SBC
 

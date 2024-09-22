@@ -492,6 +492,42 @@ namespace mbNES
         public void LSR()
         {
 
+            if (currentOpcode == 0x4A)      // Accumulator addressing mode
+            {
+                workingData = a;            // Load data from accumulator
+                Bus.cycleCount++;           // Increment cycle count
+                this.pc--;                  // One byte instruction, don't need the next PC increment at the end of CPU::ExecuteInstruction()
+            }
+
+            else
+            {
+                workingData = Bus.ReadBus(effectiveAddress, true);       // All other modes 
+                Bus.cycleCount++;                                        // Read-Modify-Write instructions read from the effective address,
+            }                                                            //    then write it back on the next cycle
+
+            // C: Carry - Set to contents of bit 0 before shift
+            if ((workingData & 1) != 0) { SetPRegisterBit(0, 1); }
+            else { SetPRegisterBit(0, 0); }
+
+            workingData >>= 1;                            // Shift right by 1 bit
+            //workingData &= ~(1 << 8);                   // Clear bit 8 
+
+            // Z: Zero 
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            // Write back to accumulator or memory location
+            if (currentOpcode == 0x4A)
+            {
+                a = workingData;
+            }
+            else { Bus.WriteBus(effectiveAddress, workingData, true); }
+
+
         }
 
 
@@ -562,10 +598,56 @@ namespace mbNES
 
 
         // ROL - Rotate Left
-        // Move each of the bits in either A or M one place to the left. Bit 0 is filled with the current value of the carry flag whilst the old bit 7 becomes the new carry flag value.
+        // Move each of the bits in either A or M one place to the left. Bit 0 is filled with the
+        // current value of the carry flag whilst the old bit 7 becomes the new carry flag value.
         public void ROL()
         {
 
+            if (currentOpcode == 0x2A)      // Accumulator addressing mode
+            {
+                workingData = a;            // Load data from accumulator
+                Bus.cycleCount++;           // Increment cycle count
+                this.pc--;                  // One byte instruction, don't need the next PC increment at the end of CPU::ExecuteInstruction()
+            }
+
+            else
+            {
+                workingData = Bus.ReadBus(effectiveAddress, true);       // All other modes 
+                Bus.cycleCount++;                                        // Read-Modify-Write instructions read from the effective address,
+            }                                                            //    then write it back on the next cycle
+
+            // Store value of carry bit for later
+            if ((p & (1 << 0)) != 0) { tempBitValue = 1; }
+            else { tempBitValue = 0; }
+            //Console.WriteLine(tempBitValue);
+
+            // C: Carry - Set to contents of bit 7 before shift
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(0, 1); }
+            else { SetPRegisterBit(0, 0); }
+
+            workingData <<= 1;                          // Shift left by 1 bit
+            workingData &= ~(1 << 8);                   // Clear bit 8 
+
+            // Set bit 0 to old value of carry bit
+            if (tempBitValue == 0)
+            { workingData &= ~(1 << 0); }
+            else
+            { workingData |= (1 << 0); }
+            
+            // Z: Zero
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            // Write back to accumulator or memory location
+            if (currentOpcode == 0x2A)
+            {
+                a = workingData;
+            }
+            else { Bus.WriteBus(effectiveAddress, workingData, true); }
         }
 
 
@@ -574,8 +656,53 @@ namespace mbNES
         // Move each of the bits in either A or M one place to the right. Bit 7 is filled with the current value of the carry flag whilst the old bit 0 becomes the new carry flag value.
         public void ROR()
         {
+            if (currentOpcode == 0x6A)      // Accumulator addressing mode
+            {
+                workingData = a;            // Load data from accumulator
+                Bus.cycleCount++;           // Increment cycle count
+                this.pc--;                  // One byte instruction, don't need the next PC increment at the end of CPU::ExecuteInstruction()
+            }
 
+            else
+            {
+                workingData = Bus.ReadBus(effectiveAddress, true);       // All other modes 
+                Bus.cycleCount++;                                        // Read-Modify-Write instructions read from the effective address,
+            }                                                            //    then write it back on the next cycle
+
+            // Store value of carry bit for later
+            if ((p & (1 << 0)) != 0) { tempBitValue = 1; }
+            else { tempBitValue = 0; }
+            //Console.WriteLine(tempBitValue);
+
+            // C: Carry - Set to contents of bit 0 before shift
+            if ((workingData & (1 << 0)) != 0) { SetPRegisterBit(0, 1); }
+            else { SetPRegisterBit(0, 0); }
+
+            workingData >>= 1;                          // Shift right by 1 bit
+            //workingData &= ~(1 << 8);                   // Clear bit 8 
+
+            // Set bit 7 to old value of carry bit
+            if (tempBitValue == 0)
+            { workingData &= ~(1 << 7); }
+            else
+            { workingData |= (1 << 7); }
+
+            // Z: Zero
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            // Write back to accumulator or memory location
+            if (currentOpcode == 0x6A)
+            {
+                a = workingData;
+            }
+            else { Bus.WriteBus(effectiveAddress, workingData, true); }
         }
+    
 
 
 
