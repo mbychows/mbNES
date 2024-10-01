@@ -136,7 +136,16 @@ namespace mbNES
         // branch to a new location.
         public void BCC()
         {
-
+            if ((p & (1 << 0)) == 0)        // If the carry bit is clear
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //njuh   Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
         }
 
 

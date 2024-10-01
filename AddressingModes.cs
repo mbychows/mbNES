@@ -9,30 +9,11 @@ namespace mbNES
     public partial class CPU
     {
 
-        // TODO:  Remove this crap
-        // ----------------------
-        //    Addressing Modes   |  
-        // ----------------------
-        //
-        // "Operational Groups"
-        //
-        // The behavior of the different addressing modes is summarized in Appendix 1 of the
-        // Synertek SY6500/MCS6500 Hardware Manual, August 1976
-        // The addressing modes are categorized in one of the following "operational groups":
-        // 
-        // (2) Internal Excecution Operations
-        // (3) Store Operations
-        // (4) Read-Modify Write Operations
-        // (5) Micellaneous Operations
-        //
-        // If the addressing mode cycle count can vary based on the  
-
-
         //  ACCUMULATOR - This form of addressing is represented with a one byte instruction,
         //  implying an operation on the accumulator
         private void AddressingMode_Accumulator()
         {
-            
+            IncrementPC();   
             // Not needed?
         }
 
@@ -46,8 +27,10 @@ namespace mbNES
         private void AddressingMode_Immediate()
         {
             effectiveAddress = pc;
+            IncrementPC();
             //workingData = Bus.ReadBus(pc, true);   // CYCLE 2           
         }
+
 
 
 
@@ -67,6 +50,7 @@ namespace mbNES
             effectiveAddress <<= 8;                             // Shift the data into the high-order byte and add in the low order byte
             effectiveAddress += tempLowOrderByte;
             //workingData = Bus.ReadBus(effectiveAddress, true);  // CYCLE 4
+            IncrementPC();
 
         }
 
@@ -82,6 +66,7 @@ namespace mbNES
         {
             effectiveAddress = Bus.ReadBus(pc, true);       // CYCLE 2
             // workingData = Bus.ReadBus(effectiveAddress, true);
+            IncrementPC();
         }
 
 
@@ -103,6 +88,7 @@ namespace mbNES
             effectiveAddress += register;                       // Add the contents of the index register
             effectiveAddress = (effectiveAddress & ~(0xFF00));  // Clear the high order byte
             //workingData = Bus.ReadBus(effectiveAddress, true);  // CYCLE 4
+            IncrementPC();
         }
 
 
@@ -122,31 +108,46 @@ namespace mbNES
             tempLowOrderByte = Bus.ReadBus(pc, true);           // CYCLE 2 - Read the 8 low-order bits of the address     
             IncrementPC();
             baseAddress = Bus.ReadBus(pc, true);                // CYCLE 3 - Read the 8 high-order bits of the base address
-
+            IncrementPC();
             baseAddress <<= 8;                                  // Shift the data into the high-order byte and add in the low order byte
             baseAddress += tempLowOrderByte;
             effectiveAddress = baseAddress + register;          // Add the register contents to base address to get effective address
+            //Console.WriteLine("effective address: " + baseAddress.ToString("x2"));
+            //Console.WriteLine("register value: " + register.ToString("x2"));
+            //Console.WriteLine("indexed address: " + (baseAddress + register).ToString("x2"));
+
+            //Console.WriteLine(baseAddress >> 8);
+            //Console.WriteLine(effectiveAddress >> 8);
 
             if ((baseAddress >> 8) != (effectiveAddress >> 8))  // If a page boundary is crossed when reading the effective address,
+            {
                 Bus.cycleCount++;                                // Increment the cycle count
+                //Console.WriteLine("Crossed!");
+            }
 
-            else switch (currentOpcode)                         // The following Read-Modify-Write instructions always use an extra cycle here:
+            else switch (currentOpcode)                         // The following instructions always use an extra cycle here:
                 {
+                    // Read-Modify-Write
                     case 0x1E: // ASL
                     case 0xDE: // DEC
                     case 0xFE: // INC
                     case 0x5E: // LSR
                     case 0x3E: // ROL
                     case 0x7E: // ROR
-                        {                           
+                    // Store
+                    case 0x9D: // STA
+                    case 0x99: // STA
+                        {
                             Bus.cycleCount++;
-                            break;                  
+                            break;
                         }
                 }
 
             effectiveAddress &= ~(1 << 16);                     // Clear bit 16 in case the addition carries over
 
             //workingData = Bus.ReadBus(effectiveAddress, true);  // CYCLE 4/5 
+            
+            
         }
 
 
@@ -167,21 +168,39 @@ namespace mbNES
         //  range of the offset is -128 to +127 bytes from the next instruction.
         public void AddressingMode_Relative()  // Check for page boundary crossing and negative PC values
         {
-            workingData = Bus.ReadBus(pc);          // Get the offset
-            IncrementPC();                          // Set program counter for "next instruction"
+            relativeOffset = Bus.ReadBus(pc,true);      // Get the offset
+            IncrementPC();                              // Set program counter for "next instruction"
+            
             effectiveAddress = pc;
-            if (workingData >> 7 == 1)              // If offset is negative
+            if ((relativeOffset >> 7) == 1)               // If offset is negative
             {
-                workingData &= ~(1 << 7);           // Clear bit 8 to prep for subtraction
-                Console.WriteLine("Working Data after bit 8 clear: " + workingData.ToString("x2"));
-                effectiveAddress -= workingData;    // Subtract from program counter
+                tempRelativeOffset = relativeOffset;
+                //Console.WriteLine(tempRelativeOffset);
+                relativeOffset = (~tempRelativeOffset & 0x000000FF) + 1;   // Two's complement to get the value
+                //Console.WriteLine(relativeOffset);
+                //relativeOffset++;
+                //relativeOffset &= ~(1 << 7);            // Clear bit 7 to prep for subtraction
+                //Console.WriteLine("Working Data after bit 7 clear: " + relativeOffset.ToString("x2"));
+                //Console.WriteLine(relativeOffset);
+                effectiveAddress -= relativeOffset;     // Subtract from program counter
             }
-            else                                    // Offset is positive
+            else                                        // Offset is positive
             {
-                effectiveAddress += workingData;    // Add to program counter
+                effectiveAddress += relativeOffset;     // Add to program counter
+                
+                if (effectiveAddress > 65535)           // Adjust for PC wraparound
+                {
+                    effectiveAddress = (effectiveAddress - 65536);
+                }
+                if (effectiveAddress < 0)
+                {
+                    effectiveAddress = (effectiveAddress + 65536);
+                }
             }
 
+            //Console.WriteLine(effectiveAddress);
             //workingData = Bus.ReadBus(effectiveAddress);
+            
         }
 
 
@@ -211,6 +230,7 @@ namespace mbNES
 
             effectiveAddress += tempLowOrderByte;               // Combine to get effective address
             //workingData = Bus.ReadBus(effectiveAddress, true);  // CYCLE 6
+            IncrementPC();
         }
 
 
@@ -239,6 +259,19 @@ namespace mbNES
 
             if ((baseAddress >> 8) != (effectiveAddress >> 8))      // Check for page crossing and add another cycle if needed
             { Bus.cycleCount++; }
+
+            else switch (currentOpcode)                             // The following instructions always use an extra cycle here:
+                {
+                    // Store
+                    case 0x91: // STA
+                        {
+                            Bus.cycleCount++;
+                            break;
+                        }
+                }
+
+
+            IncrementPC();
 
             //workingData = Bus.ReadBus(effectiveAddress, true);      // CYCLE 5/6
 
@@ -287,6 +320,7 @@ namespace mbNES
             effectiveAddress += tempLowOrderByte;               // Combine for effective address 
 
             //workingData = Bus.ReadBus(effectiveAddress, true);
+            IncrementPC();
         }
 
 

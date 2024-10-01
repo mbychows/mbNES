@@ -38,19 +38,19 @@ namespace mbNES
             //TestCPU.TestADC();
             OpcodeTest OpcodeTest = new OpcodeTest();
 
-            // ADC - DONE
-            //OpcodeTest.JSONTest("69");    
-            //OpcodeTest.JSONTest("65");    
-            //OpcodeTest.JSONTest("75");    
-            //OpcodeTest.JSONTest("6D");    
-            //OpcodeTest.JSONTest("7D");     
-            //OpcodeTest.JSONTest("79");    
-            //OpcodeTest.JSONTest("61");     
-            //OpcodeTest.JSONTest("71");    
+            //// ADC - DONE
+            //OpcodeTest.JSONTest("69");
+            //OpcodeTest.JSONTest("65");
+            //OpcodeTest.JSONTest("75");
+            //OpcodeTest.JSONTest("6D");
+            //OpcodeTest.JSONTest("7D");
+            //OpcodeTest.JSONTest("79");
+            //OpcodeTest.JSONTest("61");
+            //OpcodeTest.JSONTest("71");
 
-            // AND - DONE
-            //OpcodeTest.JSONTest("29");        
-            //OpcodeTest.JSONTest("25");    
+            //// AND - DONE
+            //OpcodeTest.JSONTest("29");
+            //OpcodeTest.JSONTest("25");
             //OpcodeTest.JSONTest("35");
             //OpcodeTest.JSONTest("2D");
             //OpcodeTest.JSONTest("3D");
@@ -58,17 +58,19 @@ namespace mbNES
             //OpcodeTest.JSONTest("21");
             //OpcodeTest.JSONTest("31");
 
-            // ASL
+            //// ASL
             //OpcodeTest.JSONTest("0A");
             //OpcodeTest.JSONTest("06");
             //OpcodeTest.JSONTest("16");
             //OpcodeTest.JSONTest("0E");
             //OpcodeTest.JSONTest("1E");
 
+            //// BCC - add this to commit
+            //OpcodeTest.JSONTest("90");
 
-            // CMP
-            //OpcodeTest.JSONTest("C9");        
-            //OpcodeTest.JSONTest("C5");    
+            //// CMP
+            //OpcodeTest.JSONTest("C9");
+            //OpcodeTest.JSONTest("C5");
             //OpcodeTest.JSONTest("D5");
             //OpcodeTest.JSONTest("CD");
             //OpcodeTest.JSONTest("DD");
@@ -76,7 +78,7 @@ namespace mbNES
             //OpcodeTest.JSONTest("C1");
             //OpcodeTest.JSONTest("D1");
 
-            // DEC
+            //// DEC
             //OpcodeTest.JSONTest("C6");
             //OpcodeTest.JSONTest("D6");
             //OpcodeTest.JSONTest("CE");
@@ -85,7 +87,7 @@ namespace mbNES
 
 
 
-            // EOR
+            //// EOR
             //OpcodeTest.JSONTest("49");
             //OpcodeTest.JSONTest("45");
             //OpcodeTest.JSONTest("55");
@@ -96,14 +98,14 @@ namespace mbNES
             //OpcodeTest.JSONTest("51");
 
 
-            // INC
+            //// INC
             //OpcodeTest.JSONTest("E6");
             //OpcodeTest.JSONTest("F6");
             //OpcodeTest.JSONTest("EE");
             //OpcodeTest.JSONTest("FE");
 
 
-            // LDA
+            //// LDA
             //OpcodeTest.JSONTest("A9");
             //OpcodeTest.JSONTest("A5");
             //OpcodeTest.JSONTest("B5");
@@ -113,14 +115,14 @@ namespace mbNES
             //OpcodeTest.JSONTest("A1");
             //OpcodeTest.JSONTest("B1");
 
-            // LSR
+            //// LSR
             //OpcodeTest.JSONTest("4A");
             //OpcodeTest.JSONTest("46");
             //OpcodeTest.JSONTest("56");
             //OpcodeTest.JSONTest("4E");
             //OpcodeTest.JSONTest("5E");
 
-            // ORA
+            //// ORA
             //OpcodeTest.JSONTest("09");
             //OpcodeTest.JSONTest("05");
             //OpcodeTest.JSONTest("15");
@@ -130,24 +132,24 @@ namespace mbNES
             //OpcodeTest.JSONTest("01");
             //OpcodeTest.JSONTest("11");
 
-            // ROL
+            //// ROL
             //OpcodeTest.JSONTest("2A");
             //OpcodeTest.JSONTest("26");
             //OpcodeTest.JSONTest("36");
             //OpcodeTest.JSONTest("2E");
             //OpcodeTest.JSONTest("3E");
 
-            // ROR
-            OpcodeTest.JSONTest("6A");
-            OpcodeTest.JSONTest("66");
-            OpcodeTest.JSONTest("76");
-            OpcodeTest.JSONTest("6E");
-            OpcodeTest.JSONTest("7E");
+            ////ROR
+            //OpcodeTest.JSONTest("6A");
+            //OpcodeTest.JSONTest("66");
+            //OpcodeTest.JSONTest("76");
+            //OpcodeTest.JSONTest("6E");
+            //OpcodeTest.JSONTest("7E");
 
-            // SBC
+            ////SBC
 
 
-            // STA
+            //// STA
             //OpcodeTest.JSONTest("85");
             //OpcodeTest.JSONTest("95");
             //OpcodeTest.JSONTest("8D");

@@ -1007,7 +1007,7 @@ namespace mbNES
 
             } // End current opcode SWITCH
 
-            IncrementPC();
+            //IncrementPC();
 
         }
     }
