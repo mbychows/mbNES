@@ -134,6 +134,7 @@ namespace mbNES
         // BCC - Branch if Carry Clear
         // If the carry flag is clear then add the relative displacement to the program counter to cause a
         // branch to a new location.
+        // NV1B DIZC
         public void BCC()
         {
             if ((p & (1 << 0)) == 0)        // If the carry bit is clear
@@ -153,8 +154,19 @@ namespace mbNES
         // BCS - Branch if Carry Set
         // If the carry flag is set then add the relative displacement to the program counter to cause a
         // branch to a new location.
+        // NV1B DIZC
         public void BCS()
         {
+            if ((p & (1 << 0)) == 1)        // If the carry bit is set
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //njuh   Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
 
         }
 
@@ -163,8 +175,19 @@ namespace mbNES
         // BEQ - Branch if Equal
         // If the zero flag is set then add the relative displacement to the program counter to cause a
         // branch to a new location.
+        // NV1B DIZC
         public void BEQ()
         {
+            if ((p & (1 << 1)) != 0)                            // If the zero flag is set
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
 
         }
 
@@ -184,8 +207,19 @@ namespace mbNES
 
         // BMI - Branch if Minus
         // If the negative flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        // NV1B DIZC
         public void BMI()
         {
+            if ((p & (1 << 7)) != 0)                            // If the negative flag is set
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
 
         }
 
@@ -193,8 +227,19 @@ namespace mbNES
 
         // BNE - Branch if Not Equal
         // If the zero flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // NV1B DIZC
         public void BNE()
         {
+            if ((p & (1 << 1)) == 0)                            // If the zero flag is clear
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
 
         }
 
@@ -202,9 +247,19 @@ namespace mbNES
 
         // BPL - Branch if Positive
         // If the negative flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // NV1B DIZC
         public void BPL()
         {
-
+            if ((p & (1 << 7)) == 0)                            // If the negative flag is clear
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
         }
 
 
@@ -220,8 +275,19 @@ namespace mbNES
 
         // BVC - Branch if Overflow Clear
         // If the overflow flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // NV1B DIZC
         public void BVC()
         {
+            if ((p & (1 << 6)) == 0)                            // If the overflow flag is clear
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
 
         }
 
@@ -231,7 +297,16 @@ namespace mbNES
         // If the overflow flag is set then add the relative displacement to the program counter to cause a branch to a new location.
         public void BVS()
         {
-
+            if ((p & (1 << 6)) != 0)                            // If the overflow flag is set
+            {
+                if ((pc >> 8) != (effectiveAddress >> 8))       // If page crossed,
+                {
+                    //Console.WriteLine("Page crossed - " + effectiveAddress);
+                    Bus.cycleCount++;                           // Add extra cycle
+                }
+                SetPC(effectiveAddress);                        // Set PC to (PC + offset) calculated from AddressingMode_Relative()
+                Bus.cycleCount++;
+            }
         }
 
 

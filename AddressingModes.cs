@@ -183,6 +183,11 @@ namespace mbNES
                 //Console.WriteLine("Working Data after bit 7 clear: " + relativeOffset.ToString("x2"));
                 //Console.WriteLine(relativeOffset);
                 effectiveAddress -= relativeOffset;     // Subtract from program counter
+                
+                if (effectiveAddress < 0)               // Adjust for PC wraparound
+                {
+                    effectiveAddress = (effectiveAddress + 65536);
+                }
             }
             else                                        // Offset is positive
             {
@@ -191,10 +196,6 @@ namespace mbNES
                 if (effectiveAddress > 65535)           // Adjust for PC wraparound
                 {
                     effectiveAddress = (effectiveAddress - 65536);
-                }
-                if (effectiveAddress < 0)
-                {
-                    effectiveAddress = (effectiveAddress + 65536);
                 }
             }
 

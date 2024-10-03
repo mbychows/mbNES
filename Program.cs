@@ -65,8 +65,29 @@ namespace mbNES
             //OpcodeTest.JSONTest("0E");
             //OpcodeTest.JSONTest("1E");
 
-            //// BCC - add this to commit
+            //// BCC
             //OpcodeTest.JSONTest("90");
+
+            //// BCS - Add to next commit
+            //OpcodeTest.JSONTest("B0");
+
+            //// BEQ - Add to next commit
+            //OpcodeTest.JSONTest("F0");
+
+            //// BMI - Add to next commit
+            //OpcodeTest.JSONTest("30");
+
+            //// BNE - Add to next commit
+            //OpcodeTest.JSONTest("D0");
+
+            //// BPL - Add to next commit
+            //OpcodeTest.JSONTest("10");
+
+            //// BVC - Add to next commit
+            //OpcodeTest.JSONTest("50");
+
+            // BVS - Add to next commit
+            OpcodeTest.JSONTest("70");
 
             //// CMP
             //OpcodeTest.JSONTest("C9");
