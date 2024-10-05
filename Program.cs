@@ -68,26 +68,39 @@ namespace mbNES
             //// BCC
             //OpcodeTest.JSONTest("90");
 
-            //// BCS - Add to next commit
+            //// BCS 
             //OpcodeTest.JSONTest("B0");
 
-            //// BEQ - Add to next commit
+            //// BEQ 
             //OpcodeTest.JSONTest("F0");
 
-            //// BMI - Add to next commit
+            //// BMI 
             //OpcodeTest.JSONTest("30");
 
-            //// BNE - Add to next commit
+            //// BNE 
             //OpcodeTest.JSONTest("D0");
 
-            //// BPL - Add to next commit
+            //// BPL 
             //OpcodeTest.JSONTest("10");
 
-            //// BVC - Add to next commit
+            //// BVC 
             //OpcodeTest.JSONTest("50");
 
-            // BVS - Add to next commit
-            OpcodeTest.JSONTest("70");
+            //// BVS 
+            //OpcodeTest.JSONTest("70");
+
+            //// CLC - Commit
+            //OpcodeTest.JSONTest("18");
+
+            //// CLD - Commit
+            //OpcodeTest.JSONTest("D8");
+
+            //// CLI - Commit
+            //OpcodeTest.JSONTest("58");
+
+            //// CLV - Commit
+            //OpcodeTest.JSONTest("B8");
+
 
             //// CMP
             //OpcodeTest.JSONTest("C9");
@@ -105,8 +118,12 @@ namespace mbNES
             //OpcodeTest.JSONTest("CE");
             //OpcodeTest.JSONTest("DE");
 
+            //// DEX - Commit
+            //OpcodeTest.JSONTest("CA");
 
 
+            //// DEY - Commit
+            //OpcodeTest.JSONTest("88");
 
             //// EOR
             //OpcodeTest.JSONTest("49");
@@ -124,6 +141,12 @@ namespace mbNES
             //OpcodeTest.JSONTest("F6");
             //OpcodeTest.JSONTest("EE");
             //OpcodeTest.JSONTest("FE");
+
+            //// INX - Commit
+            //OpcodeTest.JSONTest("E8");
+
+            //// INY - Commit
+            //OpcodeTest.JSONTest("C8");
 
 
             //// LDA
@@ -169,6 +192,14 @@ namespace mbNES
 
             ////SBC
 
+            //// SEC - Commit
+            //OpcodeTest.JSONTest("38");
+
+            //// SED - Commit
+            //OpcodeTest.JSONTest("F8");
+
+            //// SEI - Commit
+            //OpcodeTest.JSONTest("78");
 
             //// STA
             //OpcodeTest.JSONTest("85");

@@ -651,6 +651,15 @@ namespace mbNES
                     DEX();
                     break;
 
+                //
+                // DEY
+                //
+                case 0x88:
+                    // DEX - Implied
+                    AddressingMode_Implied();
+                    DEY();
+                    break;
+
                 //  Group 3 instructions
                 //  CPX LDY STY CPY INX INY
                 //  BCC BCS BEQ BMI BNE BPL BVC BVS             - Relative only
@@ -845,7 +854,7 @@ namespace mbNES
                 //
                 case 0x18:
                     // CLC - Implied
-                    AddressingMode_Implied();
+                    //AddressingMode_Implied();
                     CLC();
                     break;
 

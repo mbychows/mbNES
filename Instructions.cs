@@ -314,8 +314,11 @@ namespace mbNES
         // CLC - Clear Carry Flag
         // Set the carry flag to zero.
         // C = 0
+        // NV1B DIZC
         public void CLC()
         {
+            SetPRegisterBit(0, 0);
+            Bus.cycleCount++;
 
         }
 
@@ -324,9 +327,11 @@ namespace mbNES
         // CLD - Clear Decimal Mode
         // Sets the decimal mode flag to zero
         // D = 0
+        // NV1B DIZC
         public void CLD()
         {
-
+            SetPRegisterBit(3, 0);
+            Bus.cycleCount++;
         }
 
 
@@ -334,9 +339,11 @@ namespace mbNES
         // CLI - Clear Interrupt Disable
         // Clears the interrupt disable flag allowing normal interrupt requests to be serviced.
         // I = 0
+        // NV1B DIZC
         public void CLI()
         {
-
+            SetPRegisterBit(2, 0);
+            Bus.cycleCount++;
         }
 
 
@@ -344,9 +351,11 @@ namespace mbNES
         // CLV - Clear Overflow Flag
         // Clears the overflow flag
         // V = 0
+        // NV1B DIZC
         public void CLV()
         {
-
+            SetPRegisterBit(6, 0);
+            Bus.cycleCount++;
         }
 
 
@@ -431,17 +440,45 @@ namespace mbNES
         // X, Z, N = X - 1
         public void DEX()
         {
+            workingData = x;
+            workingData--;
+            if (workingData == -1) {  workingData = 255; }              // Correct for wraparound  
+            
 
+            // Z: Zero 
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            x = workingData;
+            Bus.cycleCount++;
         }
 
 
 
-        //DEY - Decrement Y Register
+        // DEY - Decrement Y Register
         // Subtracts one from the Y register setting the zero and negative flags as appropriate.
         // Y, Z, N = Y - 1
         public void DEY()
         {
+            workingData = y;
+            workingData--;
+            if (workingData == -1) { workingData = 255; }              // Correct for wraparound
 
+
+            // Z: Zero 
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            y = workingData;
+            Bus.cycleCount++;
         }
 
 
@@ -498,7 +535,21 @@ namespace mbNES
         // X,Z,N = X+1
         public void INX()
         {
+            workingData = x;
+            workingData++;
+            if (workingData == 256) { workingData = 0; }              // Correct for wraparound  
 
+
+            // Z: Zero 
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            x = workingData;
+            Bus.cycleCount++;
         }
 
 
@@ -508,7 +559,21 @@ namespace mbNES
         // Y,Z,N = Y+1
         public void INY()
         {
+            workingData = y;
+            workingData++;
+            if (workingData == 256) { workingData = 0; }              // Correct for wraparound
 
+
+            // Z: Zero 
+            if (workingData == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((workingData & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            y = workingData;
+            Bus.cycleCount++;
         }
 
 
@@ -822,8 +887,11 @@ namespace mbNES
         // SEC - Set Carry Flag
         // Set the carry flag to one.
         // C = 1
+        // NV1B DIZC
         public void SEC()
         {
+            SetPRegisterBit(0, 1);
+            Bus.cycleCount++;
 
         }
 
@@ -831,9 +899,11 @@ namespace mbNES
 
         // SED - Set Decimal Flag
         // Set the decimal mode flag to one.
+        // NV1B DIZC
         public void SED()
         {
-
+            SetPRegisterBit(3, 1);
+            Bus.cycleCount++;
         }
 
 
@@ -841,9 +911,11 @@ namespace mbNES
         // SEI - Set Interrupt Disable
         // Set the interrupt disable flag to one.
         // I = 1
+        // NV1B DIZC
         public void SEI()
         {
-
+            SetPRegisterBit(2, 1);
+            Bus.cycleCount++;
         }
 
 
