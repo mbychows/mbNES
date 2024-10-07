@@ -89,16 +89,16 @@ namespace mbNES
             //// BVS 
             //OpcodeTest.JSONTest("70");
 
-            //// CLC - Commit
+            //// CLC 
             //OpcodeTest.JSONTest("18");
 
-            //// CLD - Commit
+            //// CLD 
             //OpcodeTest.JSONTest("D8");
 
-            //// CLI - Commit
+            //// CLI 
             //OpcodeTest.JSONTest("58");
 
-            //// CLV - Commit
+            //// CLV 
             //OpcodeTest.JSONTest("B8");
 
 
@@ -118,11 +118,11 @@ namespace mbNES
             //OpcodeTest.JSONTest("CE");
             //OpcodeTest.JSONTest("DE");
 
-            //// DEX - Commit
+            //// DEX
             //OpcodeTest.JSONTest("CA");
 
 
-            //// DEY - Commit
+            //// DEY
             //OpcodeTest.JSONTest("88");
 
             //// EOR
@@ -142,12 +142,15 @@ namespace mbNES
             //OpcodeTest.JSONTest("EE");
             //OpcodeTest.JSONTest("FE");
 
-            //// INX - Commit
+            //// INX
             //OpcodeTest.JSONTest("E8");
 
-            //// INY - Commit
+            //// INY
             //OpcodeTest.JSONTest("C8");
 
+            // JMP - Commit
+            //OpcodeTest.JSONTest("4C");
+            //OpcodeTest.JSONTest("6C");
 
             //// LDA
             //OpcodeTest.JSONTest("A9");
@@ -165,6 +168,9 @@ namespace mbNES
             //OpcodeTest.JSONTest("56");
             //OpcodeTest.JSONTest("4E");
             //OpcodeTest.JSONTest("5E");
+
+            //// NOP - Commit
+            //OpcodeTest.JSONTest("EA");
 
             //// ORA
             //OpcodeTest.JSONTest("09");
@@ -190,15 +196,19 @@ namespace mbNES
             //OpcodeTest.JSONTest("6E");
             //OpcodeTest.JSONTest("7E");
 
+            // RTI
+
+            // RTS
+
             ////SBC
 
-            //// SEC - Commit
+            //// SEC 
             //OpcodeTest.JSONTest("38");
 
-            //// SED - Commit
+            //// SED 
             //OpcodeTest.JSONTest("F8");
 
-            //// SEI - Commit
+            //// SEI 
             //OpcodeTest.JSONTest("78");
 
             //// STA
@@ -210,11 +220,33 @@ namespace mbNES
             //OpcodeTest.JSONTest("81");
             //OpcodeTest.JSONTest("91");
 
+            //// STX - Commit
+            //OpcodeTest.JSONTest("86");
+            //OpcodeTest.JSONTest("96");
+            //OpcodeTest.JSONTest("8E");
 
+            //// STY - Commit
+            //OpcodeTest.JSONTest("84");
+            //OpcodeTest.JSONTest("94");
+            //OpcodeTest.JSONTest("8C");
 
+            //// TAX - Commit
+            //OpcodeTest.JSONTest("AA");
 
+            //// TAY - Commit
+            //OpcodeTest.JSONTest("A8");
 
+            //// TSX - Commit
+            //OpcodeTest.JSONTest("BA");
 
+            //// TXA - Commit
+            //OpcodeTest.JSONTest("8A");
+
+            //// TXS - Commit
+            //OpcodeTest.JSONTest("BA");
+
+            // TYA
+            OpcodeTest.JSONTest("98");
 
 
 

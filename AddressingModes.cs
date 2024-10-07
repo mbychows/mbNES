@@ -301,24 +301,36 @@ namespace mbNES
         //  The next memory location contains the high order byte of the effective address which is loaded
         //  into the sixteen bits of the program counter.
         //
-        //
+        //  NOTE - Originial 6502 does not fetch the high order byte from the next page if the low order byte falls on $xxFF, it fetches
+        //  from $xx00
         //
         public void AddressingMode_AbsoluteIndirect() // done?
         {
-            tempLowOrderByte = Bus.ReadBus(pc, true);            // Get second byte of instruction, assign to low order byte of address
+            tempLowOrderByte = Bus.ReadBus(pc, true);               // Get second byte of instruction, assign to low order byte of address
 
             IncrementPC();
-            tempAddress = Bus.ReadBus(pc, true);                // Get third byte of instruction,
-            tempAddress = (tempAddress << 8);                   // assign to high order byte of address
-            tempAddress += tempLowOrderByte;
+            
+            tempHighOrderByte = Bus.ReadBus(pc, true);              // Get third byte of instruction,
+            tempHighOrderByte = (tempHighOrderByte << 8);           // assign to high order byte of address
+            
+            
+            tempAddress = tempLowOrderByte + tempHighOrderByte;
+            
+            
+            tempLowOrderByte2 = Bus.ReadBus(tempAddress, true);     // Get contents of address, assign to low order byte of effective address
+                                                                    
+            tempLowOrderByte++;                                     // When we go to the next address, we're only incrementing the low order bits,
+                                                                    //    not the entire 16 bit address - SEE NOTE ABOVE
+            if (tempLowOrderByte == 256) { tempLowOrderByte = 0; }  // Wraparound
+            
+            tempAddress = tempLowOrderByte + tempHighOrderByte;
+            
 
-            tempLowOrderByte = Bus.ReadBus(tempAddress, true);  // Get contents of address, assign to low order byte of effective address
+            effectiveAddress = Bus.ReadBus(tempAddress, true);      // Get contents of next address, 
+            effectiveAddress = (effectiveAddress << 8);             // assign to high order byte of effective address
 
-            tempAddress++;
-            effectiveAddress = Bus.ReadBus(tempAddress, true);   // Get contents of next address, 
-            effectiveAddress = (effectiveAddress << 8);         // assign to high order byte of effective address
-
-            effectiveAddress += tempLowOrderByte;               // Combine for effective address 
+            effectiveAddress += tempLowOrderByte2;                  // Combine for effective address 
+            //Console.WriteLine(effectiveAddress);
 
             //workingData = Bus.ReadBus(effectiveAddress, true);
             IncrementPC();

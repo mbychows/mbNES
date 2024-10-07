@@ -582,7 +582,8 @@ namespace mbNES
         // Sets the program counter to the address specified by the operand.
         public void JMP()
         {
-
+            pc = effectiveAddress;
+            //Bus.cycleCount++;
         }
 
 
@@ -685,7 +686,7 @@ namespace mbNES
         // The NOP instruction causes no changes to the processor other than the normal incrementing of the program counter to the next instruction.
         public void NOP()
         {
-
+            Bus.cycleCount++;
         }
 
 
@@ -935,7 +936,7 @@ namespace mbNES
         // M = X
         public void STX()
         {
-
+            Bus.WriteBus(effectiveAddress, x, true);
         }
 
 
@@ -944,7 +945,7 @@ namespace mbNES
         // M = Y
         public void STY()
         {
-
+            Bus.WriteBus(effectiveAddress, y, true);
         }
 
 
@@ -952,8 +953,19 @@ namespace mbNES
         // TAX - Transfer Accumulator to X
         // Copies the current contents of the accumulator into the X register and sets the zero and negative flags as appropriate.
         // X = A
+        // NV1B DIZC
         public void TAX()
         {
+            x = a;
+            Bus.cycleCount++;
+
+            // Z: Zero
+            if (x == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((x & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
 
         }
 
@@ -964,6 +976,16 @@ namespace mbNES
         // Y = A
         public void TAY()
         {
+            y = a;
+            Bus.cycleCount++;
+
+            // Z: Zero
+            if (y == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((y & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
 
         }
 
@@ -974,7 +996,16 @@ namespace mbNES
         // X = S
         public void TSX()
         {
+            x = s;
+            Bus.cycleCount++;
 
+            // Z: Zero
+            if (x == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((x & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -984,7 +1015,16 @@ namespace mbNES
         // A = X
         public void TXA()
         {
+            a = x;
+            Bus.cycleCount++;
 
+            // Z: Zero
+            if (a == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((a & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -994,6 +1034,16 @@ namespace mbNES
         // S = X
         public void TXS()
         {
+            s = x;
+            Bus.cycleCount++;
+
+            // Z: Zero
+            if (s == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((s & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
 
         }
 
@@ -1004,7 +1054,16 @@ namespace mbNES
         // A = Y
         public void TYA()
         {
+            a = y;
+            Bus.cycleCount++;
 
+            // Z: Zero
+            if (a == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((a & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
     }
 }

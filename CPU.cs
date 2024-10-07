@@ -49,6 +49,7 @@ namespace mbNES
                                                     //   operations have been applied
 
         private int tempLowOrderByte = 0x00;
+        private int tempLowOrderByte2;
         private int tempHighOrderByte = 0x00;
         private int tempAddress = 0x0000;
         private int tempResult = 0x0000;

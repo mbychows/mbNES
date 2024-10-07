@@ -624,6 +624,17 @@ namespace mbNES
                     TAX();
                     break;
 
+
+                //
+                // TAY
+                //
+                case 0xA8:
+                    // TAY - Implied
+                    AddressingMode_Implied();
+                    TAY();
+                    break;
+
+
                 //
                 // TXS
                 //
@@ -632,6 +643,27 @@ namespace mbNES
                     AddressingMode_Implied();
                     TXS();
                     break;
+
+
+                //
+                // TXA
+                //
+                case 0x8A:
+                    // TXA - Implied
+                    AddressingMode_Implied();
+                    TXA();
+                    break;
+
+
+                //
+                // TYA
+                //
+                case 0x98:
+                    // TYA - Implied
+                    AddressingMode_Implied();
+                    TYA();
+                    break;
+
 
                 //
                 // TSX
@@ -1013,6 +1045,16 @@ namespace mbNES
                     AddressingMode_Absolute();
                     BIT();
                     break;
+
+                //
+                // NOP
+                //
+                case 0xEA:
+                    // NOP - Implied 
+                    AddressingMode_Implied();
+                    NOP();
+                    break;
+
 
             } // End current opcode SWITCH
 
