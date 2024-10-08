@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -392,6 +393,21 @@ namespace mbNES
         // Z,C,N = X-M
         public void CPX()
         {
+  
+            tempResult = x - Bus.ReadBus(effectiveAddress, true);       // X - M
+            
+            // C: Carry - Set to contents of bit 7 before shift
+            if ((tempResult >= 0)) { SetPRegisterBit(0, 1); }        // For compare operations with subtraction, set carry bit if there's                                                            
+            else { SetPRegisterBit(0, 0); }                                     //   a "greater than or equal" result
+
+            // Z: Zero 
+            if (tempResult == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((tempResult & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
 
         }
 
@@ -403,6 +419,20 @@ namespace mbNES
         public void CPY()
         {
 
+            tempResult = y - Bus.ReadBus(effectiveAddress, true);       // Y - M
+
+            // C: Carry - Set to contents of bit 7 before shift
+            if ((tempResult >= 0)) { SetPRegisterBit(0, 1); }           // For compare operations with subtraction, set carry bit if there's                                                            
+            else { SetPRegisterBit(0, 0); }                             //   a "greater than or equal" result
+
+            // Z: Zero 
+            if (tempResult == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((tempResult & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -621,7 +651,15 @@ namespace mbNES
         // X,Z,N = M
         public void LDX()
         {
+            x = Bus.ReadBus(effectiveAddress, true);
 
+            // Z: Zero 
+            if (x == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((x & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -631,7 +669,15 @@ namespace mbNES
         // Y,Z,N = M
         public void LDY()
         {
+            y = Bus.ReadBus(effectiveAddress, true);
 
+            // Z: Zero 
+            if (y == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((y & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -715,16 +761,21 @@ namespace mbNES
         // Pushes a copy of the accumulator onto the stack
         public void PHA()
         {
-
+            
+            Bus.WriteBus(0x0100 + s, a, true);          // Copy contents of a to address in stack
+            decrementStackPointer();                    // Decrement stack pointer, descending stack
+            
         }
 
 
 
         // PHP - Push Processor Status
         // Pushes a copy of the status flags on to the stack.
+        // The B flag is pushed as 1 during PHP and BRK instructions, but bit 4 is not actually set in the P register
         public void PHP()
         {
-
+            Bus.WriteBus(0x0100 + s, p+16, true);       // Copy contents of p to address in stack, with the B flag set (+16)
+            decrementStackPointer();                    // Decrement stack pointer, descending stack
         }
 
 
@@ -733,7 +784,17 @@ namespace mbNES
         // Pulls an 8 bit value from the stack and into the accumulator. The zero and negative flags are set as appropriate.
         public void PLA()
         {
+            incrementStackPointer();                    
+            a = Bus.ReadBus(0x0100 + s, true);          // Pop stack contents into accumulator
+            Bus.cycleCount++;                           // Writing to accumulator adds a cycle
 
+            // Z: Zero 
+            if (a == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((a & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -742,6 +803,11 @@ namespace mbNES
         // Pulls an 8 bit value from the stack and into the processor flags. The flags will take on new states as determined by the value pulled.
         public void PLP()
         {
+            incrementStackPointer();
+            p = Bus.ReadBus(0x0100 + s, true);          // Pop stack contents into p register
+            Bus.cycleCount++;                           // Writing to p register adds a cycle
+            SetPRegisterBit(4, 0);                      // Bits 4 and 5 in the P register are not affected by this instruction,
+            SetPRegisterBit(5, 1);                      //    So they'll be set to their "defaults"
 
         }
 

@@ -38,7 +38,7 @@ namespace mbNES
             //TestCPU.TestADC();
             OpcodeTest OpcodeTest = new OpcodeTest();
 
-            //// ADC - DONE
+            //// ADC
             //OpcodeTest.JSONTest("69");
             //OpcodeTest.JSONTest("65");
             //OpcodeTest.JSONTest("75");
@@ -48,7 +48,7 @@ namespace mbNES
             //OpcodeTest.JSONTest("61");
             //OpcodeTest.JSONTest("71");
 
-            //// AND - DONE
+            //// AND
             //OpcodeTest.JSONTest("29");
             //OpcodeTest.JSONTest("25");
             //OpcodeTest.JSONTest("35");
@@ -112,6 +112,16 @@ namespace mbNES
             //OpcodeTest.JSONTest("C1");
             //OpcodeTest.JSONTest("D1");
 
+            //// CPX - Commit
+            //OpcodeTest.JSONTest("E0");
+            //OpcodeTest.JSONTest("E4");
+            //OpcodeTest.JSONTest("EC");
+
+            //// CPY - Commit
+            //OpcodeTest.JSONTest("C0");
+            //OpcodeTest.JSONTest("C4");
+            //OpcodeTest.JSONTest("CC");
+
             //// DEC
             //OpcodeTest.JSONTest("C6");
             //OpcodeTest.JSONTest("D6");
@@ -148,7 +158,7 @@ namespace mbNES
             //// INY
             //OpcodeTest.JSONTest("C8");
 
-            // JMP - Commit
+            // JMP
             //OpcodeTest.JSONTest("4C");
             //OpcodeTest.JSONTest("6C");
 
@@ -162,6 +172,20 @@ namespace mbNES
             //OpcodeTest.JSONTest("A1");
             //OpcodeTest.JSONTest("B1");
 
+            //// LDX - Commit
+            //OpcodeTest.JSONTest("A2");
+            //OpcodeTest.JSONTest("A6");
+            //OpcodeTest.JSONTest("B6");
+            //OpcodeTest.JSONTest("AE");
+            //OpcodeTest.JSONTest("BE");
+
+            //// LDY - Commit
+            //OpcodeTest.JSONTest("A0");
+            //OpcodeTest.JSONTest("A4");
+            //OpcodeTest.JSONTest("B4");
+            //OpcodeTest.JSONTest("AC");
+            //OpcodeTest.JSONTest("BC");
+
             //// LSR
             //OpcodeTest.JSONTest("4A");
             //OpcodeTest.JSONTest("46");
@@ -169,7 +193,7 @@ namespace mbNES
             //OpcodeTest.JSONTest("4E");
             //OpcodeTest.JSONTest("5E");
 
-            //// NOP - Commit
+            //// NOP
             //OpcodeTest.JSONTest("EA");
 
             //// ORA
@@ -181,6 +205,18 @@ namespace mbNES
             //OpcodeTest.JSONTest("19");
             //OpcodeTest.JSONTest("01");
             //OpcodeTest.JSONTest("11");
+
+            //// PHA - Commit
+            //OpcodeTest.JSONTest("48");
+
+            //// PHP - Commit
+            //OpcodeTest.JSONTest("08");
+
+            //// PLA - Commit
+            //OpcodeTest.JSONTest("68");
+
+            // PLP
+            OpcodeTest.JSONTest("28");
 
             //// ROL
             //OpcodeTest.JSONTest("2A");
@@ -220,33 +256,33 @@ namespace mbNES
             //OpcodeTest.JSONTest("81");
             //OpcodeTest.JSONTest("91");
 
-            //// STX - Commit
+            //// STX
             //OpcodeTest.JSONTest("86");
             //OpcodeTest.JSONTest("96");
             //OpcodeTest.JSONTest("8E");
 
-            //// STY - Commit
+            //// STY
             //OpcodeTest.JSONTest("84");
             //OpcodeTest.JSONTest("94");
             //OpcodeTest.JSONTest("8C");
 
-            //// TAX - Commit
+            //// TAX
             //OpcodeTest.JSONTest("AA");
 
-            //// TAY - Commit
+            //// TAY
             //OpcodeTest.JSONTest("A8");
 
-            //// TSX - Commit
+            //// TSX
             //OpcodeTest.JSONTest("BA");
 
-            //// TXA - Commit
+            //// TXA
             //OpcodeTest.JSONTest("8A");
 
-            //// TXS - Commit
+            //// TXS
             //OpcodeTest.JSONTest("BA");
 
-            // TYA
-            OpcodeTest.JSONTest("98");
+            //// TYA
+            //OpcodeTest.JSONTest("98");
 
 
 

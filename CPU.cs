@@ -35,7 +35,7 @@ namespace mbNES
         public int a { get; private set; } = 0x00;         // Accumulator
         public int x { get; private set; } = 0x00;         // x register
         public int y { get; private set; } = 0x00;         // y register 
-        public int s { get; private set; } = 0x00;         // Stack Pointer
+        public int s { get; private set; } = 0x01FF;       // Stack Pointer
         public int p { get; private set; } = 0x00;         // Status register
 
         public int pc { get; private set; } = 0x0000;    // Program counter, 2 bytes
@@ -57,6 +57,7 @@ namespace mbNES
         private int tempBitValue;
         private int relativeOffset;
         private int tempRelativeOffset;
+        const int stackHighOrderByte = 0x0100;
 
         private int register = 0;
         
@@ -97,8 +98,21 @@ namespace mbNES
             // get opcode stored at value in program counter
             currentOpcode = Bus.ReadBus(pc,true);
             IncrementPC();
-        }    
+        }
 
+        private void decrementStackPointer()
+        {
+            s--;
+            Bus.cycleCount++;               // Incrementing the stack takes 1 cycle
+            if (s == -1) { s = 255; }
+        }
+
+        private void incrementStackPointer()
+        {
+            s++;
+            Bus.cycleCount++;               // Incrementing the stack takes 1 cycle
+            if (s == 256) { s = 0; }
+        }
     }
 
 
