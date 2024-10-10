@@ -15,6 +15,10 @@ namespace mbNES
         public Form1()
         {
             InitializeComponent();
+            CPUTest TestCPU = new CPUTest();
+            OpcodeTest OpcodeTest = new OpcodeTest();
+            // BRK -- TEST NEXT
+            OpcodeTest.JSONTest("00");
 
         }
     }

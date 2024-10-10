@@ -57,7 +57,9 @@ namespace mbNES
         private int tempBitValue;
         private int relativeOffset;
         private int tempRelativeOffset;
+        private int tempMemoryContents;
         const int stackHighOrderByte = 0x0100;
+        private int aTemp;
 
         private int register = 0;
         
@@ -103,14 +105,14 @@ namespace mbNES
         private void decrementStackPointer()
         {
             s--;
-            Bus.cycleCount++;               // Incrementing the stack takes 1 cycle
+            //Bus.cycleCount++;               
             if (s == -1) { s = 255; }
         }
 
         private void incrementStackPointer()
         {
             s++;
-            Bus.cycleCount++;               // Incrementing the stack takes 1 cycle
+            //Bus.cycleCount++;               
             if (s == 256) { s = 0; }
         }
     }

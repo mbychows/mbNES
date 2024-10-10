@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ namespace mbNES
     public partial class CPU
     {
         // ADC - Add with Carry
-        // This instruction adds the contents of a memory location to the accumulator together with the carry bit. If overflow occurs the carry bit is set, this enables multiple byte addition to be performed.
+        // This instruction adds the contents of a memory location to the accumulator together with the carry bit.
+        // If overflow occurs the carry bit is set, this enables multiple byte addition to be performed.
         // A,Z,C,N = A+M+C
         public void ADC()
         {
@@ -199,9 +201,25 @@ namespace mbNES
         // mask pattern in A is ANDed with the value in memory to set or clear the zero flag, but the result
         // is not kept. Bits 7 and 6 of the value from memory are copied into the N and V flags.
         // A & M, N = M7, V = M6
+        // NV1B DIZC
         public void BIT()
         {
+            tempMemoryContents = Bus.ReadBus(effectiveAddress, true);
+            tempResult = a & tempMemoryContents;
 
+            // Z: Zero 
+            if (tempResult == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+
+
+            // O: Overflow - equal to vaue of overflow bit (6) 
+            if ((tempMemoryContents & (1 << 6)) != 0) { SetPRegisterBit(6, 1); }
+            else { SetPRegisterBit(6, 0); }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((tempMemoryContents & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
         }
 
 
@@ -266,10 +284,42 @@ namespace mbNES
 
 
         // BRK - Force Interrupt
-        // The BRK instruction forces the generation of an interrupt request. The program counter and processor status are pushed on the stack then the IRQ interrupt vector at $FFFE/F is loaded into the PC and the break flag in the status set to one.
+        // The BRK instruction forces the generation of an interrupt request. The program counter and processor status are pushed
+        // on the stack then the IRQ interrupt vector at $FFFE/F is loaded into the PC and the break flag in the status set to one.
+        // NV1B DIZC
         public void BRK()
         {
+            IncrementPC();
+            tempAddress = pc;
+            tempLowOrderByte = tempAddress & 0x00FF;            // Grab the low order byte of PC
+            tempHighOrderByte = tempAddress >> 8;               // Grab the high order byte of PC
+            
+            
+            Bus.WriteBus(0x0100 + s, tempHighOrderByte, true);  // Push PC HOB onto the stack
+            decrementStackPointer();
 
+            Bus.WriteBus(0x0100 + s, tempLowOrderByte, true);   // Push PC HOB onto the stack
+            decrementStackPointer();
+
+
+            SetPRegisterBit(4, 1);                              // Set "B flag" in p register to be put on the stack
+            
+            Bus.WriteBus(0x0100 + s, p, true);                  // Push p onto the stack
+            SetPRegisterBit(4, 0);                              // Reset "B flag" in p register because it doesn't really exist
+            decrementStackPointer();
+
+            SetPRegisterBit(2, 1);                              // Interrupts set the I flag
+
+            tempLowOrderByte = Bus.ReadBus(0xFFFE, true);       // Read low order byte of IRQ vector
+            tempAddress = Bus.ReadBus(0xFFFF, true);            // Read high order byte of IRQ vector
+            tempAddress <<= 8;
+            tempAddress += tempLowOrderByte;                    // Final IRQ vector
+
+            SetPC(tempAddress);                                 // Set program counter to IRQ vector
+            Bus.cycleCount++;                                
+
+            
+            
         }
 
 
@@ -619,9 +669,24 @@ namespace mbNES
 
 
         // JSR - Jump to Subroutine
-        // The JSR instruction pushes the address (minus one) of the return point on to the stack and then sets the program counter to the target memory address.
+        // The JSR instruction pushes the address (minus one) of the return point on to the stack and then
+        // sets the program counter to the target memory address.
         public void JSR()
         {
+                                                           
+            tempAddress = (pc - 1);                             // We want to return to the memory location of the originial operand
+            tempLowOrderByte = tempAddress & 0x00FF;            // Grab the low order byte of PC
+            tempHighOrderByte = tempAddress >> 8;               // Grab the high order byte of PC
+
+            Bus.cycleCount++;                                   // Discarded stack pointer read
+
+            Bus.WriteBus(0x0100 + s, tempHighOrderByte, true);  // Push PC HOB onto the stack
+            decrementStackPointer();
+
+            Bus.WriteBus(0x0100 + s, tempLowOrderByte, true);   // Push PC LOB onto the stack
+            decrementStackPointer();
+
+            SetPC(effectiveAddress);
 
         }
 
@@ -761,8 +826,8 @@ namespace mbNES
         // Pushes a copy of the accumulator onto the stack
         public void PHA()
         {
-            
-            Bus.WriteBus(0x0100 + s, a, true);          // Copy contents of a to address in stack
+            Bus.cycleCount++;                           // CYCLE 2 - discarded read of PC+1
+            Bus.WriteBus(0x0100 + s, a, true);          // CYCLE 3 - Copy contents of a to address in stack
             decrementStackPointer();                    // Decrement stack pointer, descending stack
             
         }
@@ -774,7 +839,8 @@ namespace mbNES
         // The B flag is pushed as 1 during PHP and BRK instructions, but bit 4 is not actually set in the P register
         public void PHP()
         {
-            Bus.WriteBus(0x0100 + s, p+16, true);       // Copy contents of p to address in stack, with the B flag set (+16)
+            Bus.cycleCount++;                           // CYCLE 2 - discarded read of PC+1
+            Bus.WriteBus(0x0100 + s, p+16, true);       // CYCLE 3 - Copy contents of p to address in stack, with the B flag set (+16)
             decrementStackPointer();                    // Decrement stack pointer, descending stack
         }
 
@@ -784,9 +850,10 @@ namespace mbNES
         // Pulls an 8 bit value from the stack and into the accumulator. The zero and negative flags are set as appropriate.
         public void PLA()
         {
+            Bus.cycleCount++;                           // CYCLE 2 - discarded read of PC+1
+            Bus.cycleCount++;                           // CYCLE 3 - discarded read of Stack pointer
             incrementStackPointer();                    
-            a = Bus.ReadBus(0x0100 + s, true);          // Pop stack contents into accumulator
-            Bus.cycleCount++;                           // Writing to accumulator adds a cycle
+            a = Bus.ReadBus(0x0100 + s, true);          // CYCLE 4 - Pop stack contents into accumulator
 
             // Z: Zero 
             if (a == 0) { SetPRegisterBit(1, 1); }
@@ -803,10 +870,11 @@ namespace mbNES
         // Pulls an 8 bit value from the stack and into the processor flags. The flags will take on new states as determined by the value pulled.
         public void PLP()
         {
+            Bus.cycleCount++;                           // CYCLE 2 - discarded read of PC+1
+            Bus.cycleCount++;                           // CYCLE 3 - discarded read of Stack pointer
             incrementStackPointer();
-            p = Bus.ReadBus(0x0100 + s, true);          // Pop stack contents into p register
-            Bus.cycleCount++;                           // Writing to p register adds a cycle
-            SetPRegisterBit(4, 0);                      // Bits 4 and 5 in the P register are not affected by this instruction,
+            p = Bus.ReadBus(0x0100 + s, true);          // CYCLE 4 - Pop stack contents into p register
+            SetPRegisterBit(4, 0);                      // Bits 4 and 5 in the P register aren't real, 
             SetPRegisterBit(5, 1);                      //    So they'll be set to their "defaults"
 
         }
@@ -923,18 +991,48 @@ namespace mbNES
 
 
         // RTI - Return from Interrupt
-        // The RTI instruction is used at the end of an interrupt processing routine. It pulls the processor flags from the stack followed by the program counter.
+        // The RTI instruction is used at the end of an interrupt processing routine. It pulls the
+        // processor flags from the stack followed by the program counter.
         public void RTI()
         {
+            Bus.cycleCount++;                                   // CYCLE 2 - Read second operand, discard
+            Bus.cycleCount++;                                   // CYCLE 3 - Read stack, discard
+            incrementStackPointer();
+            p = Bus.ReadBus(0x0100 + s, true);                   // CYCLE 4 - Pop the p register value from the stack 
+
+            SetPRegisterBit(4, 0);                              // Clear b flag even though it doesn't exist in p
+            SetPRegisterBit(5, 1);                              // Set bit 5 even though it also doesn't exist in p
+
+            incrementStackPointer();
+            tempLowOrderByte = Bus.ReadBus(0x0100 + s, true);   // CYCLE 5 - Pop the low order byte of the PC
+
+            incrementStackPointer();
+            tempHighOrderByte = Bus.ReadBus(0x0100 + s, true);  // CYCLE 6 - Pop the high order byte of the PC
+            
+
+            pc = (tempHighOrderByte << 8) + tempLowOrderByte;   // Combine and store in PC
 
         }
 
 
 
         // RTS - Return from Subroutine
-        // The RTS instruction is used at the end of a subroutine to return to the calling routine. It pulls the program counter (minus one) from the stack.
+        // The RTS instruction is used at the end of a subroutine to return to the calling routine. It
+        // pulls the program counter (minus one) from the stack.
         public void RTS()
         {
+            Bus.cycleCount++;                                       // CYCLE 2 - Read second operand, discard
+            Bus.cycleCount++;                                       // CYCLE 3 - Read stack, discard
+
+            incrementStackPointer();
+            tempLowOrderByte = Bus.ReadBus(0x0100 + s, true);       // CYCLE 4 - Pop the low order byte of the PC
+
+            incrementStackPointer();
+            tempHighOrderByte = Bus.ReadBus(0x0100 + s, true);      // CYCLE 5 - Pop the high order byte of the PC
+
+            Bus.cycleCount++;                                       // CYCLE 6 - Stack read, discarded
+
+            pc = ((tempHighOrderByte << 8) + tempLowOrderByte) + 1; // Combine (+1) and store in PC
 
         }
 
@@ -946,6 +1044,53 @@ namespace mbNES
         // A,Z,C,N = A-M-(1-C)
         public void SBC()
         {
+            workingData = Bus.ReadBus(effectiveAddress, true);
+
+            aTemp = a;                                          // For calculating overflow flag
+
+            // Subtracts the operand and NOT of carry bit from accumulator
+            aTemp = a - workingData - (~p & 1);                 // This works because the carry bit is bit 0 in the P register
+            int overflowTemp = aTemp;
+         
+            if (aTemp < 0)                                      // If result is negative, two's complement the absolute value 
+            {
+                int calcTemp = Math.Abs(aTemp);                     
+                aTemp = ((~calcTemp) + 1);                      // Two's complement
+                aTemp &= 0x1FF;                                 // Mask out everything but the lowest two bytes, excluding bit 8 for the carry test below
+            }
+
+            // P Register Flags
+
+            // C: Carry - set if Bit 8 of the result is set (an int can hold this result)
+            if ((aTemp & (1 << 8)) != 0)
+            {
+                SetPRegisterBit(0, 0);                          // Clear the carry bit in the p register
+                aTemp &= ~(1 << 8);                             // Clear bit 8 in aTemp
+            }
+            else { SetPRegisterBit(0, 1); }
+
+            // Z: Zero 
+            if (aTemp == 0) { SetPRegisterBit(1, 1); }
+            else { SetPRegisterBit(1, 0); }
+
+            // V: Overflow
+            // No Overflow if  (M^result) & (~N^result) & 0x80 != 0
+            // Note that ~N is different from overclod calc of ADC instruction
+
+            if (((a ^ aTemp) & (~workingData ^ aTemp) & 0x80) != 0)
+            {
+                SetPRegisterBit(6, 1);           // Set V
+            }
+            else
+            {
+                SetPRegisterBit(6, 0);           // Clear V
+            }
+
+            // N: Negative - equal to vaue of sign bit (7) 
+            if ((aTemp & (1 << 7)) != 0) { SetPRegisterBit(7, 1); }
+            else { SetPRegisterBit(7, 0); }
+
+            a = aTemp;
 
         }
 

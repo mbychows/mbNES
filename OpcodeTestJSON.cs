@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Forms;
 
 namespace mbNES
 {
@@ -210,6 +211,7 @@ namespace mbNES
                 {
                     testsFailed++;
                     Console.WriteLine("Test failed: " + Tests[testNumber].TestName);
+                    
 
 
                     // Check the results against the expected values
@@ -261,7 +263,7 @@ namespace mbNES
                     else
                     {
                         Console.WriteLine("p: FAIL");
-                        Console.WriteLine("\t\tNV---IZC");
+                        Console.WriteLine("\t\tNV1BDIZC");
                         Console.WriteLine("Initial p: \t" + Convert.ToString(Tests[testNumber].InitialState.p, 2).PadLeft(8, '0'));
                         Console.WriteLine("Expected p: \t" + Convert.ToString(Tests[testNumber].FinalState.p,2).PadLeft(8,'0'));
                         Console.WriteLine("Actual p: \t" + Convert.ToString(TestCPU.p,2).PadLeft(8,'0'));
