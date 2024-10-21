@@ -35,6 +35,9 @@ namespace mbNES
         // 0xFFFF = 65535
         public static int[] RAM = new int[0xFFFF+10]; // Must be +1 to make $FFFF inside the bounds of the array
                                                       // set larger for now for testing without throwing exceptions
+        
+        public static byte[] romBytes;                  // For opening a ROM
+
         public static int cycleCount;
 
         static Bus()
@@ -102,6 +105,14 @@ namespace mbNES
             RAM[address] = data;
             cycleCount++;
 
+        }
+
+        public static void LoadROM(string romFilePath)
+        {
+            
+            romBytes = System.IO.File.ReadAllBytes(romFilePath);
+            Console.WriteLine(romBytes[0].ToString("X2") + " " + romBytes[1].ToString("X2") + " " + romBytes[2].ToString("X2") + " " + romBytes[3].ToString("X2"));
+            //byte[] nesText; = 
         }
     }
 }

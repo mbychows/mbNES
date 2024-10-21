@@ -15,9 +15,10 @@ namespace mbNES
         static void Main()
         {
 
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            mbNESmain mbNESmainWindow = new mbNESmain();
+            Application.Run(mbNESmainWindow);
 
             //byte byte1 = 0xFF;
             //byte byte2 = 0xFF;
@@ -29,7 +30,7 @@ namespace mbNES
             //CPU TestCPU = new CPU();
 
 
-            CPUTest TestCPU = new CPUTest();
+            //CPUTest TestCPU = new CPUTest();
 
             //TestCPU.TestAddressingMode_Absolute();
             //TestCPU.TestAddressingMode_ZeroPage();
@@ -41,273 +42,273 @@ namespace mbNES
             //TestCPU.TestAddressingMode_AbsoluteIndirect();
 
             //TestCPU.TestADC();
-            OpcodeTest OpcodeTest = new OpcodeTest();
+            //OpcodeTest OpcodeTest = new OpcodeTest();
 
-            // ADC
-            OpcodeTest.JSONTest("69");
-            OpcodeTest.JSONTest("65");
-            OpcodeTest.JSONTest("75");
-            OpcodeTest.JSONTest("6D");
-            OpcodeTest.JSONTest("7D");
-            OpcodeTest.JSONTest("79");
-            OpcodeTest.JSONTest("61");
-            OpcodeTest.JSONTest("71");
+            //// ADC
+            //OpcodeTest.JSONTest("69");
+            //OpcodeTest.JSONTest("65");
+            //OpcodeTest.JSONTest("75");
+            //OpcodeTest.JSONTest("6D");
+            //OpcodeTest.JSONTest("7D");
+            //OpcodeTest.JSONTest("79");
+            //OpcodeTest.JSONTest("61");
+            //OpcodeTest.JSONTest("71");
 
-            // AND
-            OpcodeTest.JSONTest("29");
-            OpcodeTest.JSONTest("25");
-            OpcodeTest.JSONTest("35");
-            OpcodeTest.JSONTest("2D");
-            OpcodeTest.JSONTest("3D");
-            OpcodeTest.JSONTest("39");
-            OpcodeTest.JSONTest("21");
-            OpcodeTest.JSONTest("31");
+            //// AND
+            //OpcodeTest.JSONTest("29");
+            //OpcodeTest.JSONTest("25");
+            //OpcodeTest.JSONTest("35");
+            //OpcodeTest.JSONTest("2D");
+            //OpcodeTest.JSONTest("3D");
+            //OpcodeTest.JSONTest("39");
+            //OpcodeTest.JSONTest("21");
+            //OpcodeTest.JSONTest("31");
 
-            // ASL
-            OpcodeTest.JSONTest("0A");
-            OpcodeTest.JSONTest("06");
-            OpcodeTest.JSONTest("16");
-            OpcodeTest.JSONTest("0E");
-            OpcodeTest.JSONTest("1E");
+            //// ASL
+            //OpcodeTest.JSONTest("0A");
+            //OpcodeTest.JSONTest("06");
+            //OpcodeTest.JSONTest("16");
+            //OpcodeTest.JSONTest("0E");
+            //OpcodeTest.JSONTest("1E");
 
-            // BCC
-            OpcodeTest.JSONTest("90");
+            //// BCC
+            //OpcodeTest.JSONTest("90");
 
-            // BCS 
-            OpcodeTest.JSONTest("B0");
+            //// BCS 
+            //OpcodeTest.JSONTest("B0");
 
-            // BEQ 
-            OpcodeTest.JSONTest("F0");
+            //// BEQ 
+            //OpcodeTest.JSONTest("F0");
 
-            // BIT
-            OpcodeTest.JSONTest("24");
-            OpcodeTest.JSONTest("2C");
+            //// BIT
+            //OpcodeTest.JSONTest("24");
+            //OpcodeTest.JSONTest("2C");
 
-            // BMI 
-            OpcodeTest.JSONTest("30");
+            //// BMI 
+            //OpcodeTest.JSONTest("30");
 
-            // BNE 
-            OpcodeTest.JSONTest("D0");
+            //// BNE 
+            //OpcodeTest.JSONTest("D0");
 
-            // BPL 
-            OpcodeTest.JSONTest("10");
+            //// BPL 
+            //OpcodeTest.JSONTest("10");
 
-            // BRK
-            OpcodeTest.JSONTest("00");
+            //// BRK
+            //OpcodeTest.JSONTest("00");
 
-            // BVC 
-            OpcodeTest.JSONTest("50");
+            //// BVC 
+            //OpcodeTest.JSONTest("50");
 
-            // BVS 
-            OpcodeTest.JSONTest("70");
+            //// BVS 
+            //OpcodeTest.JSONTest("70");
 
-            // CLC 
-            OpcodeTest.JSONTest("18");
+            //// CLC 
+            //OpcodeTest.JSONTest("18");
 
-            // CLD 
-            OpcodeTest.JSONTest("D8");
+            //// CLD 
+            //OpcodeTest.JSONTest("D8");
 
-            // CLI 
-            OpcodeTest.JSONTest("58");
+            //// CLI 
+            //OpcodeTest.JSONTest("58");
 
-            // CLV 
-            OpcodeTest.JSONTest("B8");
-
-
-            // CMP
-            OpcodeTest.JSONTest("C9");
-            OpcodeTest.JSONTest("C5");
-            OpcodeTest.JSONTest("D5");
-            OpcodeTest.JSONTest("CD");
-            OpcodeTest.JSONTest("DD");
-            OpcodeTest.JSONTest("D9");
-            OpcodeTest.JSONTest("C1");
-            OpcodeTest.JSONTest("D1");
-
-            // CPX
-            OpcodeTest.JSONTest("E0");
-            OpcodeTest.JSONTest("E4");
-            OpcodeTest.JSONTest("EC");
-
-            // CPY
-            OpcodeTest.JSONTest("C0");
-            OpcodeTest.JSONTest("C4");
-            OpcodeTest.JSONTest("CC");
-
-            // DEC
-            OpcodeTest.JSONTest("C6");
-            OpcodeTest.JSONTest("D6");
-            OpcodeTest.JSONTest("CE");
-            OpcodeTest.JSONTest("DE");
-
-            // DEX
-            OpcodeTest.JSONTest("CA");
+            //// CLV 
+            //OpcodeTest.JSONTest("B8");
 
 
-            // DEY
-            OpcodeTest.JSONTest("88");
+            //// CMP
+            //OpcodeTest.JSONTest("C9");
+            //OpcodeTest.JSONTest("C5");
+            //OpcodeTest.JSONTest("D5");
+            //OpcodeTest.JSONTest("CD");
+            //OpcodeTest.JSONTest("DD");
+            //OpcodeTest.JSONTest("D9");
+            //OpcodeTest.JSONTest("C1");
+            //OpcodeTest.JSONTest("D1");
 
-            // EOR
-            OpcodeTest.JSONTest("49");
-            OpcodeTest.JSONTest("45");
-            OpcodeTest.JSONTest("55");
-            OpcodeTest.JSONTest("4D");
-            OpcodeTest.JSONTest("5D");
-            OpcodeTest.JSONTest("59");
-            OpcodeTest.JSONTest("41");
-            OpcodeTest.JSONTest("51");
+            //// CPX
+            //OpcodeTest.JSONTest("E0");
+            //OpcodeTest.JSONTest("E4");
+            //OpcodeTest.JSONTest("EC");
+
+            //// CPY
+            //OpcodeTest.JSONTest("C0");
+            //OpcodeTest.JSONTest("C4");
+            //OpcodeTest.JSONTest("CC");
+
+            //// DEC
+            //OpcodeTest.JSONTest("C6");
+            //OpcodeTest.JSONTest("D6");
+            //OpcodeTest.JSONTest("CE");
+            //OpcodeTest.JSONTest("DE");
+
+            //// DEX
+            //OpcodeTest.JSONTest("CA");
 
 
-            // INC
-            OpcodeTest.JSONTest("E6");
-            OpcodeTest.JSONTest("F6");
-            OpcodeTest.JSONTest("EE");
-            OpcodeTest.JSONTest("FE");
+            //// DEY
+            //OpcodeTest.JSONTest("88");
 
-            // INX
-            OpcodeTest.JSONTest("E8");
+            //// EOR
+            //OpcodeTest.JSONTest("49");
+            //OpcodeTest.JSONTest("45");
+            //OpcodeTest.JSONTest("55");
+            //OpcodeTest.JSONTest("4D");
+            //OpcodeTest.JSONTest("5D");
+            //OpcodeTest.JSONTest("59");
+            //OpcodeTest.JSONTest("41");
+            //OpcodeTest.JSONTest("51");
 
-            // INY
-            OpcodeTest.JSONTest("C8");
 
-            // JMP
-            OpcodeTest.JSONTest("4C");
-            OpcodeTest.JSONTest("6C");
+            //// INC
+            //OpcodeTest.JSONTest("E6");
+            //OpcodeTest.JSONTest("F6");
+            //OpcodeTest.JSONTest("EE");
+            //OpcodeTest.JSONTest("FE");
 
-            // JSR
-            OpcodeTest.JSONTest("20");
+            //// INX
+            //OpcodeTest.JSONTest("E8");
 
-            // LDA
-            OpcodeTest.JSONTest("A9");
-            OpcodeTest.JSONTest("A5");
-            OpcodeTest.JSONTest("B5");
-            OpcodeTest.JSONTest("AD");
-            OpcodeTest.JSONTest("BD");
-            OpcodeTest.JSONTest("B9");
-            OpcodeTest.JSONTest("A1");
-            OpcodeTest.JSONTest("B1");
+            //// INY
+            //OpcodeTest.JSONTest("C8");
 
-            // LDX
-            OpcodeTest.JSONTest("A2");
-            OpcodeTest.JSONTest("A6");
-            OpcodeTest.JSONTest("B6");
-            OpcodeTest.JSONTest("AE");
-            OpcodeTest.JSONTest("BE");
+            //// JMP
+            //OpcodeTest.JSONTest("4C");
+            //OpcodeTest.JSONTest("6C");
 
-            // LDY
-            OpcodeTest.JSONTest("A0");
-            OpcodeTest.JSONTest("A4");
-            OpcodeTest.JSONTest("B4");
-            OpcodeTest.JSONTest("AC");
-            OpcodeTest.JSONTest("BC");
+            //// JSR
+            //OpcodeTest.JSONTest("20");
 
-            // LSR
-            OpcodeTest.JSONTest("4A");
-            OpcodeTest.JSONTest("46");
-            OpcodeTest.JSONTest("56");
-            OpcodeTest.JSONTest("4E");
-            OpcodeTest.JSONTest("5E");
+            //// LDA
+            //OpcodeTest.JSONTest("A9");
+            //OpcodeTest.JSONTest("A5");
+            //OpcodeTest.JSONTest("B5");
+            //OpcodeTest.JSONTest("AD");
+            //OpcodeTest.JSONTest("BD");
+            //OpcodeTest.JSONTest("B9");
+            //OpcodeTest.JSONTest("A1");
+            //OpcodeTest.JSONTest("B1");
 
-            // NOP
-            OpcodeTest.JSONTest("EA");
+            //// LDX
+            //OpcodeTest.JSONTest("A2");
+            //OpcodeTest.JSONTest("A6");
+            //OpcodeTest.JSONTest("B6");
+            //OpcodeTest.JSONTest("AE");
+            //OpcodeTest.JSONTest("BE");
 
-            // ORA
-            OpcodeTest.JSONTest("09");
-            OpcodeTest.JSONTest("05");
-            OpcodeTest.JSONTest("15");
-            OpcodeTest.JSONTest("0D");
-            OpcodeTest.JSONTest("1D");
-            OpcodeTest.JSONTest("19");
-            OpcodeTest.JSONTest("01");
-            OpcodeTest.JSONTest("11");
+            //// LDY
+            //OpcodeTest.JSONTest("A0");
+            //OpcodeTest.JSONTest("A4");
+            //OpcodeTest.JSONTest("B4");
+            //OpcodeTest.JSONTest("AC");
+            //OpcodeTest.JSONTest("BC");
 
-            // PHA
-            OpcodeTest.JSONTest("48");
+            //// LSR
+            //OpcodeTest.JSONTest("4A");
+            //OpcodeTest.JSONTest("46");
+            //OpcodeTest.JSONTest("56");
+            //OpcodeTest.JSONTest("4E");
+            //OpcodeTest.JSONTest("5E");
 
-            // PHP
-            OpcodeTest.JSONTest("08");
+            //// NOP
+            //OpcodeTest.JSONTest("EA");
 
-            // PLA
-            OpcodeTest.JSONTest("68");
+            //// ORA
+            //OpcodeTest.JSONTest("09");
+            //OpcodeTest.JSONTest("05");
+            //OpcodeTest.JSONTest("15");
+            //OpcodeTest.JSONTest("0D");
+            //OpcodeTest.JSONTest("1D");
+            //OpcodeTest.JSONTest("19");
+            //OpcodeTest.JSONTest("01");
+            //OpcodeTest.JSONTest("11");
 
-            // PLP
-            OpcodeTest.JSONTest("28");
+            //// PHA
+            //OpcodeTest.JSONTest("48");
 
-            // ROL
-            OpcodeTest.JSONTest("2A");
-            OpcodeTest.JSONTest("26");
-            OpcodeTest.JSONTest("36");
-            OpcodeTest.JSONTest("2E");
-            OpcodeTest.JSONTest("3E");
+            //// PHP
+            //OpcodeTest.JSONTest("08");
 
-            //ROR
-            OpcodeTest.JSONTest("6A");
-            OpcodeTest.JSONTest("66");
-            OpcodeTest.JSONTest("76");
-            OpcodeTest.JSONTest("6E");
-            OpcodeTest.JSONTest("7E");
+            //// PLA
+            //OpcodeTest.JSONTest("68");
 
-            // RTI
-            OpcodeTest.JSONTest("40");
+            //// PLP
+            //OpcodeTest.JSONTest("28");
 
-            // RTS
-            OpcodeTest.JSONTest("60");
+            //// ROL
+            //OpcodeTest.JSONTest("2A");
+            //OpcodeTest.JSONTest("26");
+            //OpcodeTest.JSONTest("36");
+            //OpcodeTest.JSONTest("2E");
+            //OpcodeTest.JSONTest("3E");
 
-            //SBC
-            OpcodeTest.JSONTest("E9");
-            OpcodeTest.JSONTest("E5");
-            OpcodeTest.JSONTest("F5");
-            OpcodeTest.JSONTest("ED");
-            OpcodeTest.JSONTest("FD");
-            OpcodeTest.JSONTest("F9");
-            OpcodeTest.JSONTest("E1");
-            OpcodeTest.JSONTest("F1");
+            ////ROR
+            //OpcodeTest.JSONTest("6A");
+            //OpcodeTest.JSONTest("66");
+            //OpcodeTest.JSONTest("76");
+            //OpcodeTest.JSONTest("6E");
+            //OpcodeTest.JSONTest("7E");
 
-            // SEC 
-            OpcodeTest.JSONTest("38");
+            //// RTI
+            //OpcodeTest.JSONTest("40");
 
-            // SED 
-            OpcodeTest.JSONTest("F8");
+            //// RTS
+            //OpcodeTest.JSONTest("60");
 
-            // SEI 
-            OpcodeTest.JSONTest("78");
+            ////SBC
+            //OpcodeTest.JSONTest("E9");
+            //OpcodeTest.JSONTest("E5");
+            //OpcodeTest.JSONTest("F5");
+            //OpcodeTest.JSONTest("ED");
+            //OpcodeTest.JSONTest("FD");
+            //OpcodeTest.JSONTest("F9");
+            //OpcodeTest.JSONTest("E1");
+            //OpcodeTest.JSONTest("F1");
 
-            // STA
-            OpcodeTest.JSONTest("85");
-            OpcodeTest.JSONTest("95");
-            OpcodeTest.JSONTest("8D");
-            OpcodeTest.JSONTest("9D");
-            OpcodeTest.JSONTest("99");
-            OpcodeTest.JSONTest("81");
-            OpcodeTest.JSONTest("91");
+            //// SEC 
+            //OpcodeTest.JSONTest("38");
 
-            // STX
-            OpcodeTest.JSONTest("86");
-            OpcodeTest.JSONTest("96");
-            OpcodeTest.JSONTest("8E");
+            //// SED 
+            //OpcodeTest.JSONTest("F8");
 
-            // STY
-            OpcodeTest.JSONTest("84");
-            OpcodeTest.JSONTest("94");
-            OpcodeTest.JSONTest("8C");
+            //// SEI 
+            //OpcodeTest.JSONTest("78");
 
-            // TAX
-            OpcodeTest.JSONTest("AA");
+            //// STA
+            //OpcodeTest.JSONTest("85");
+            //OpcodeTest.JSONTest("95");
+            //OpcodeTest.JSONTest("8D");
+            //OpcodeTest.JSONTest("9D");
+            //OpcodeTest.JSONTest("99");
+            //OpcodeTest.JSONTest("81");
+            //OpcodeTest.JSONTest("91");
 
-            // TAY
-            OpcodeTest.JSONTest("A8");
+            //// STX
+            //OpcodeTest.JSONTest("86");
+            //OpcodeTest.JSONTest("96");
+            //OpcodeTest.JSONTest("8E");
 
-            // TSX
-            OpcodeTest.JSONTest("BA");
+            //// STY
+            //OpcodeTest.JSONTest("84");
+            //OpcodeTest.JSONTest("94");
+            //OpcodeTest.JSONTest("8C");
 
-            // TXA
-            OpcodeTest.JSONTest("8A");
+            //// TAX
+            //OpcodeTest.JSONTest("AA");
 
-            // TXS
-            OpcodeTest.JSONTest("BA");
+            //// TAY
+            //OpcodeTest.JSONTest("A8");
 
-            // TYA
-            OpcodeTest.JSONTest("98");
+            //// TSX
+            //OpcodeTest.JSONTest("BA");
+
+            //// TXA
+            //OpcodeTest.JSONTest("8A");
+
+            //// TXS
+            //OpcodeTest.JSONTest("BA");
+
+            //// TYA
+            //OpcodeTest.JSONTest("98");
 
 
 
