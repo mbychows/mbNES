@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.memoryContentsRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.displayMemoryButton = new System.Windows.Forms.Button();
             this.logRichTextBox = new System.Windows.Forms.RichTextBox();
             this.refreshLogButton = new System.Windows.Forms.Button();
             this.registersTextBox = new System.Windows.Forms.RichTextBox();
@@ -45,15 +45,15 @@
             this.memoryContentsRichTextBox.TabIndex = 1;
             this.memoryContentsRichTextBox.Text = "";
             // 
-            // button1
+            // displayMemoryButton
             // 
-            this.button1.Location = new System.Drawing.Point(12, 566);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 25);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Display Memory";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.displayMemoryButton.Location = new System.Drawing.Point(12, 566);
+            this.displayMemoryButton.Name = "displayMemoryButton";
+            this.displayMemoryButton.Size = new System.Drawing.Size(120, 25);
+            this.displayMemoryButton.TabIndex = 2;
+            this.displayMemoryButton.Text = "Display Memory";
+            this.displayMemoryButton.UseVisualStyleBackColor = true;
+            this.displayMemoryButton.Click += new System.EventHandler(this.displayMemoryButton_Click);
             // 
             // logRichTextBox
             // 
@@ -103,7 +103,7 @@
             this.Controls.Add(this.registersTextBox);
             this.Controls.Add(this.refreshLogButton);
             this.Controls.Add(this.logRichTextBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.displayMemoryButton);
             this.Controls.Add(this.memoryContentsRichTextBox);
             this.Name = "DebugWindow";
             this.Text = "Debug";
@@ -115,7 +115,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox memoryContentsRichTextBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button displayMemoryButton;
         private System.Windows.Forms.RichTextBox logRichTextBox;
         private System.Windows.Forms.Button refreshLogButton;
         private System.Windows.Forms.RichTextBox registersTextBox;

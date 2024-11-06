@@ -17,22 +17,35 @@ namespace mbNES
         //CPUTest TestCPU = new CPUTest();
         // OpcodeTest OpcodeTest = new OpcodeTest();
         //public CPU CPU = new CPU();
-
+        public Game Game;
 
         public mbNESmain()
         {
             InitializeComponent();
-            
+            CreateDebugWindow();
 
         }
 
         private void debugWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CreateDebugWindow();
+            //debugWindowToolStripMenuItem.Enabled = false;                                   // Disables the Debug window menu item
+            //DebugWindow debugWindow = new DebugWindow(this);                                // New debug window
+
+            //debugWindow.FormClosed += new FormClosedEventHandler(DebugWindow_FormClosed);   // Event handler for when the window is closed (re-enable menu item)
+            //debugWindow.Show();                                                             // Show the debug window
+        }
+
+
+        private void CreateDebugWindow()
+        {
             debugWindowToolStripMenuItem.Enabled = false;                                   // Disables the Debug window menu item
             DebugWindow debugWindow = new DebugWindow(this);                                // New debug window
+            debugWindow.StartPosition = FormStartPosition.Manual;  
+            debugWindow.Location = new Point(800, 100);
 
             debugWindow.FormClosed += new FormClosedEventHandler(DebugWindow_FormClosed);   // Event handler for when the window is closed (re-enable menu item)
-            debugWindow.Show();                                                             // Show the debug window
+            debugWindow.Show();
         }
 
         void DebugWindow_FormClosed(object sender, FormClosedEventArgs e)
@@ -46,7 +59,7 @@ namespace mbNES
             await System.Threading.Tasks.Task.Run(() => testSuite.Start());
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Open the ROM file
             OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -70,11 +83,50 @@ namespace mbNES
 
             richTextBox1.AppendText(loadResults);
 
-            CPU.nesCPU.ExecuteInstruction();
+            powerOnToolStripMenuItem.Enabled = true;
+            Game = new Game();
+            powerOnToolStripMenuItem.Enabled = true;
+
             
+            await System.Threading.Tasks.Task.Run(() => Game.asyncSetupGame());
 
-         }  
 
-        
+
+        }
+
+        private async void powerOnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Game = new Game();
+            //powerOnToolStripMenuItem.Enabled = true;
+            //await System.Threading.Tasks.Task.Run(() => Game.asyncSetupGame());
+            Game.StartGame();
+            powerOnToolStripMenuItem.Enabled = false;
+            powerOffToolStripMenuItem.Enabled = true;
+            pauseToolStripMenuItem.Enabled = true;
+        }
+
+        private void powerOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Game.StopGame();
+            powerOnToolStripMenuItem.Enabled = true;
+            powerOffToolStripMenuItem.Enabled = false;
+            pauseToolStripMenuItem.Enabled = false;
+            CPU.nesCPU.ResetCPU();
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Game.IsRunning())                           // If game isn't paused yet
+            {
+                Game.StopGame();                            // Stop the game
+                pauseToolStripMenuItem.Text = "Unpause";    // Change the menu item text to "Unpause"
+            }
+            else if (!Game.IsRunning())                     // Otherwise, if the game is paused,
+            {
+                Game.StartGame();                           // Resume the game
+                pauseToolStripMenuItem.Text = "Pause";       // Change meno to "Pause"
+
+            }
+        }
     }
 }

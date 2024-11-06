@@ -119,11 +119,12 @@ namespace mbNES
         public string getRegistersFormatted()
         {
             string tempString = "";
-            tempString += ("P: " + Convert.ToString(p, 2).PadLeft(8, '0'));
+            tempString += ("PC: " + pc.ToString("d5"));
+            tempString += ("   S: " + s.ToString("x2"));
             tempString += ("   A: " + a.ToString("x2"));
             tempString += ("   X: " + x.ToString("x2"));
             tempString += ("   Y: " + y.ToString("x2"));
-            tempString += ("   S: " + s.ToString("x2"));
+            tempString += ("   P: " + Convert.ToString(p, 2).PadLeft(8, '0'));
 
             return tempString;
         }

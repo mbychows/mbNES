@@ -27,7 +27,12 @@ namespace mbNES
             return memoryContents;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void displayMemoryButton_Click(object sender, EventArgs e)
+        {
+            displayMemory();
+        }
+
+        private void displayMemory()
         {
             memoryContentsRichTextBox.Clear();
             int offset = 0;
@@ -37,7 +42,7 @@ namespace mbNES
 
             StringBuilder sbFull = new StringBuilder();
             StringBuilder sbLine = new StringBuilder();
-            
+
 
             for (int i = 0; i < memoryContents.Length; i++)
             {
@@ -49,34 +54,39 @@ namespace mbNES
                 }
 
                 sbLine.Append(memoryContents[i].ToString("X2").ToUpperInvariant() + " ");   // Add the next memory value to sb line
-                // formattedMemoryContents += memoryContents[i].ToString("X2").ToUpperInvariant() + " ";
-                
-                if ( ((i+1) % 16 == 0) && (i != 0) )                                        // If we're done with a line
+                                                                                            // formattedMemoryContents += memoryContents[i].ToString("X2").ToUpperInvariant() + " ";
+
+                if (((i + 1) % 16 == 0) && (i != 0))                                        // If we're done with a line
                 {
                     sbLine.Append("\n");
                     sbFull.Append(sbLine.ToString());                                       // Generate a string for the line and add it to the full SB object
                     sbLine.Clear();                                                         // Clear out the line
                     //formattedMemoryContents += Environment.NewLine;
                 }
-                
+
             }
 
 
 
             memoryContentsRichTextBox.AppendText(sbFull.ToString());                        // Generate the full string and put it in the memory contents box
-            
-        }
 
+        }
         private void DebugWindow_Load(object sender, EventArgs e)
         {
             logRichTextBox.Clear();                         
             logRichTextBox.AppendText(Log.GetLog());                                    // Populate the log box
             registersTextBox.Clear();
             registersTextBox.AppendText(CPU.nesCPU.getRegistersFormatted());            // Populate the registers box
+            displayMemory();
             
         }
 
         private void refreshLogButton_Click(object sender, EventArgs e)
+        {
+            refreshLog();
+        }
+
+        private void refreshLog()
         {
             logRichTextBox.Clear();
             logRichTextBox.AppendText(Log.GetLog());
@@ -84,8 +94,11 @@ namespace mbNES
 
         private void refreshRegistersButton_Click(object sender, EventArgs e)
         {
-            
+            refreshRegisters();
+        }
 
+        private void refreshRegisters()
+        {
             registersTextBox.Clear();
             registersTextBox.AppendText(CPU.nesCPU.getRegistersFormatted());
         }

@@ -39,6 +39,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.powerOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +51,8 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
-            this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.powerOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.powerOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,6 +140,24 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
+            // gameToolStripMenuItem
+            // 
+            this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.powerOnToolStripMenuItem,
+            this.powerOffToolStripMenuItem,
+            this.pauseToolStripMenuItem});
+            this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
+            this.gameToolStripMenuItem.Size = new System.Drawing.Size(54, 21);
+            this.gameToolStripMenuItem.Text = "Game";
+            // 
+            // powerOnToolStripMenuItem
+            // 
+            this.powerOnToolStripMenuItem.Enabled = false;
+            this.powerOnToolStripMenuItem.Name = "powerOnToolStripMenuItem";
+            this.powerOnToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.powerOnToolStripMenuItem.Text = "Power On";
+            this.powerOnToolStripMenuItem.Click += new System.EventHandler(this.powerOnToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -175,30 +195,30 @@
             // contentsToolStripMenuItem
             // 
             this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(133, 24);
             this.contentsToolStripMenuItem.Text = "&Contents";
             // 
             // indexToolStripMenuItem
             // 
             this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-            this.indexToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.indexToolStripMenuItem.Size = new System.Drawing.Size(133, 24);
             this.indexToolStripMenuItem.Text = "&Index";
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(133, 24);
             this.searchToolStripMenuItem.Text = "&Search";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(195, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(130, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 24);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
             // button1
@@ -211,19 +231,21 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // gameToolStripMenuItem
+            // powerOffToolStripMenuItem
             // 
-            this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.powerOnToolStripMenuItem});
-            this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
-            this.gameToolStripMenuItem.Size = new System.Drawing.Size(54, 21);
-            this.gameToolStripMenuItem.Text = "Game";
+            this.powerOffToolStripMenuItem.Enabled = false;
+            this.powerOffToolStripMenuItem.Name = "powerOffToolStripMenuItem";
+            this.powerOffToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.powerOffToolStripMenuItem.Text = "Power Off";
+            this.powerOffToolStripMenuItem.Click += new System.EventHandler(this.powerOffToolStripMenuItem_Click);
             // 
-            // powerOnToolStripMenuItem
+            // pauseToolStripMenuItem
             // 
-            this.powerOnToolStripMenuItem.Name = "powerOnToolStripMenuItem";
-            this.powerOnToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.powerOnToolStripMenuItem.Text = "Power On";
+            this.pauseToolStripMenuItem.Enabled = false;
+            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
+            this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
             // mbNESmain
             // 
@@ -268,6 +290,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem powerOnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem powerOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
     }
 }
 

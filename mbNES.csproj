@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AddressingModes.cs" />
     <Compile Include="Bus.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="CPUTest.cs" />
     <Compile Include="CPU.cs" />
