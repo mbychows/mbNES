@@ -135,7 +135,7 @@ namespace mbNES
             Console.WriteLine("\n");
         }
 
-        public void JSONTest(string opcode)
+        public async Task JSONTest(string opcode)
         {
             //int testNumber = 3;
             int testsFailed = 0;
@@ -325,4 +325,287 @@ namespace mbNES
 
     } // End Class OpcodeTest
 
+    
+
+    public class OpcodeTestSuite
+    {
+        OpcodeTest OpcodeTest = new OpcodeTest();
+
+        public OpcodeTestSuite() 
+        {
+           
+        }
+
+        public async Task Start()
+        {
+            // ADC
+            await OpcodeTest.JSONTest("69");
+            await OpcodeTest.JSONTest("65");
+            await OpcodeTest.JSONTest("75");
+            await OpcodeTest.JSONTest("6D");
+            await OpcodeTest.JSONTest("7D");
+            await OpcodeTest.JSONTest("79");
+            await OpcodeTest.JSONTest("61");
+            await OpcodeTest.JSONTest("71");
+
+            //// AND
+            //await OpcodeTest.JSONTest("29");
+            //await OpcodeTest.JSONTest("25");
+            //await OpcodeTest.JSONTest("35");
+            //await OpcodeTest.JSONTest("2D");
+            //await OpcodeTest.JSONTest("3D");
+            //await OpcodeTest.JSONTest("39");
+            //await OpcodeTest.JSONTest("21");
+            //await OpcodeTest.JSONTest("31");
+
+            //// ASL
+            //await OpcodeTest.JSONTest("0A");
+            //await OpcodeTest.JSONTest("06");
+            //await OpcodeTest.JSONTest("16");
+            //await OpcodeTest.JSONTest("0E");
+            //await OpcodeTest.JSONTest("1E");
+
+            //// BCC
+            //await OpcodeTest.JSONTest("90");
+
+            //// BCS 
+            //await OpcodeTest.JSONTest("B0");
+
+            //// BEQ 
+            //await OpcodeTest.JSONTest("F0");
+
+            //// BIT
+            //await OpcodeTest.JSONTest("24");
+            //await OpcodeTest.JSONTest("2C");
+
+            //// BMI 
+            //await OpcodeTest.JSONTest("30");
+
+            //// BNE 
+            //await OpcodeTest.JSONTest("D0");
+
+            //// BPL 
+            //await OpcodeTest.JSONTest("10");
+
+            //// BRK
+            //await OpcodeTest.JSONTest("00");
+
+            //// BVC 
+            //await OpcodeTest.JSONTest("50");
+
+            //// BVS 
+            //await OpcodeTest.JSONTest("70");
+
+            //// CLC 
+            //await OpcodeTest.JSONTest("18");
+
+            //// CLD 
+            //await OpcodeTest.JSONTest("D8");
+
+            //// CLI 
+            //await OpcodeTest.JSONTest("58");
+
+            //// CLV 
+            //await OpcodeTest.JSONTest("B8");
+
+
+            //// CMP
+            //await OpcodeTest.JSONTest("C9");
+            //await OpcodeTest.JSONTest("C5");
+            //await OpcodeTest.JSONTest("D5");
+            //await OpcodeTest.JSONTest("CD");
+            //await OpcodeTest.JSONTest("DD");
+            //await OpcodeTest.JSONTest("D9");
+            //await OpcodeTest.JSONTest("C1");
+            //await OpcodeTest.JSONTest("D1");
+
+            //// CPX
+            //await OpcodeTest.JSONTest("E0");
+            //await OpcodeTest.JSONTest("E4");
+            //await OpcodeTest.JSONTest("EC");
+
+            //// CPY
+            //await OpcodeTest.JSONTest("C0");
+            //await OpcodeTest.JSONTest("C4");
+            //await OpcodeTest.JSONTest("CC");
+
+            //// DEC
+            //await OpcodeTest.JSONTest("C6");
+            //await OpcodeTest.JSONTest("D6");
+            //await OpcodeTest.JSONTest("CE");
+            //await OpcodeTest.JSONTest("DE");
+
+            //// DEX
+            //await OpcodeTest.JSONTest("CA");
+
+
+            //// DEY
+            //await OpcodeTest.JSONTest("88");
+
+            //// EOR
+            //await OpcodeTest.JSONTest("49");
+            //await OpcodeTest.JSONTest("45");
+            //await OpcodeTest.JSONTest("55");
+            //await OpcodeTest.JSONTest("4D");
+            //await OpcodeTest.JSONTest("5D");
+            //await OpcodeTest.JSONTest("59");
+            //await OpcodeTest.JSONTest("41");
+            //await OpcodeTest.JSONTest("51");
+
+
+            //// INC
+            //await OpcodeTest.JSONTest("E6");
+            //await OpcodeTest.JSONTest("F6");
+            //await OpcodeTest.JSONTest("EE");
+            //await OpcodeTest.JSONTest("FE");
+
+            //// INX
+            //await OpcodeTest.JSONTest("E8");
+
+            //// INY
+            //await OpcodeTest.JSONTest("C8");
+
+            //// JMP
+            //await OpcodeTest.JSONTest("4C");
+            //await OpcodeTest.JSONTest("6C");
+
+            //// JSR
+            //await OpcodeTest.JSONTest("20");
+
+            //// LDA
+            //await OpcodeTest.JSONTest("A9");
+            //await OpcodeTest.JSONTest("A5");
+            //await OpcodeTest.JSONTest("B5");
+            //await OpcodeTest.JSONTest("AD");
+            //await OpcodeTest.JSONTest("BD");
+            //await OpcodeTest.JSONTest("B9");
+            //await OpcodeTest.JSONTest("A1");
+            //await OpcodeTest.JSONTest("B1");
+
+            //// LDX
+            //await OpcodeTest.JSONTest("A2");
+            //await OpcodeTest.JSONTest("A6");
+            //await OpcodeTest.JSONTest("B6");
+            //await OpcodeTest.JSONTest("AE");
+            //await OpcodeTest.JSONTest("BE");
+
+            //// LDY
+            //await OpcodeTest.JSONTest("A0");
+            //await OpcodeTest.JSONTest("A4");
+            //await OpcodeTest.JSONTest("B4");
+            //await OpcodeTest.JSONTest("AC");
+            //await OpcodeTest.JSONTest("BC");
+
+            //// LSR
+            //await OpcodeTest.JSONTest("4A");
+            //await OpcodeTest.JSONTest("46");
+            //await OpcodeTest.JSONTest("56");
+            //await OpcodeTest.JSONTest("4E");
+            //await OpcodeTest.JSONTest("5E");
+
+            //// NOP
+            //await OpcodeTest.JSONTest("EA");
+
+            //// ORA
+            //await OpcodeTest.JSONTest("09");
+            //await OpcodeTest.JSONTest("05");
+            //await OpcodeTest.JSONTest("15");
+            //await OpcodeTest.JSONTest("0D");
+            //await OpcodeTest.JSONTest("1D");
+            //await OpcodeTest.JSONTest("19");
+            //await OpcodeTest.JSONTest("01");
+            //await OpcodeTest.JSONTest("11");
+
+            //// PHA
+            //await OpcodeTest.JSONTest("48");
+
+            //// PHP
+            //await OpcodeTest.JSONTest("08");
+
+            //// PLA
+            //await OpcodeTest.JSONTest("68");
+
+            //// PLP
+            //await OpcodeTest.JSONTest("28");
+
+            //// ROL
+            //await OpcodeTest.JSONTest("2A");
+            //await OpcodeTest.JSONTest("26");
+            //await OpcodeTest.JSONTest("36");
+            //await OpcodeTest.JSONTest("2E");
+            //await OpcodeTest.JSONTest("3E");
+
+            ////ROR
+            //await OpcodeTest.JSONTest("6A");
+            //await OpcodeTest.JSONTest("66");
+            //await OpcodeTest.JSONTest("76");
+            //await OpcodeTest.JSONTest("6E");
+            //await OpcodeTest.JSONTest("7E");
+
+            //// RTI
+            //await OpcodeTest.JSONTest("40");
+
+            //// RTS
+            //await OpcodeTest.JSONTest("60");
+
+            ////SBC
+            //await OpcodeTest.JSONTest("E9");
+            //await OpcodeTest.JSONTest("E5");
+            //await OpcodeTest.JSONTest("F5");
+            //await OpcodeTest.JSONTest("ED");
+            //await OpcodeTest.JSONTest("FD");
+            //await OpcodeTest.JSONTest("F9");
+            //await OpcodeTest.JSONTest("E1");
+            //await OpcodeTest.JSONTest("F1");
+
+            //// SEC 
+            //await OpcodeTest.JSONTest("38");
+
+            //// SED 
+            //await OpcodeTest.JSONTest("F8");
+
+            //// SEI 
+            //await OpcodeTest.JSONTest("78");
+
+            //// STA
+            //await OpcodeTest.JSONTest("85");
+            //await OpcodeTest.JSONTest("95");
+            //await OpcodeTest.JSONTest("8D");
+            //await OpcodeTest.JSONTest("9D");
+            //await OpcodeTest.JSONTest("99");
+            //await OpcodeTest.JSONTest("81");
+            //await OpcodeTest.JSONTest("91");
+
+            //// STX
+            //await OpcodeTest.JSONTest("86");
+            //await OpcodeTest.JSONTest("96");
+            //await OpcodeTest.JSONTest("8E");
+
+            //// STY
+            //await OpcodeTest.JSONTest("84");
+            //await OpcodeTest.JSONTest("94");
+            //await OpcodeTest.JSONTest("8C");
+
+            //// TAX
+            //await OpcodeTest.JSONTest("AA");
+
+            //// TAY
+            //await OpcodeTest.JSONTest("A8");
+
+            //// TSX
+            //await OpcodeTest.JSONTest("BA");
+
+            //// TXA
+            //await OpcodeTest.JSONTest("8A");
+
+            //// TXS
+            //await OpcodeTest.JSONTest("BA");
+
+            //// TYA
+            //await OpcodeTest.JSONTest("98");
+
+            return;
+            
+        }
+    }
 }

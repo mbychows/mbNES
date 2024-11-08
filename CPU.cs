@@ -26,7 +26,7 @@ namespace mbNES
     //internal class CPU
     {
 
-
+        public static CPU nesCPU = new CPU();
 
         // ---------------
         //    Registers   |  
@@ -114,6 +114,19 @@ namespace mbNES
             s++;
             //Bus.cycleCount++;               
             if (s == 256) { s = 0; }
+        }
+
+        public string getRegistersFormatted()
+        {
+            string tempString = "";
+            tempString += ("PC: " + pc.ToString("d5"));
+            tempString += ("   S: " + s.ToString("x2"));
+            tempString += ("   A: " + a.ToString("x2"));
+            tempString += ("   X: " + x.ToString("x2"));
+            tempString += ("   Y: " + y.ToString("x2"));
+            tempString += ("   P: " + Convert.ToString(p, 2).PadLeft(8, '0'));
+
+            return tempString;
         }
     }
 

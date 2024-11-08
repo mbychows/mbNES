@@ -1058,7 +1058,9 @@ namespace mbNES
 
             } // End current opcode SWITCH
 
+            Console.WriteLine("Executed opcode " + currentOpcode.ToString("x2"));
             //IncrementPC();
+            
 
         }
     }
